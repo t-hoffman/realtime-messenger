@@ -2,6 +2,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import ToasterContext from "./context/ToasterContext";
 import AuthContext from "./context/AuthContext";
+import ApolloWrapper from "./components/ApolloWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
       >
         <AuthContext>
           <ToasterContext />
-          {children}
+          <ApolloWrapper>{children}</ApolloWrapper>
         </AuthContext>
       </body>
     </html>

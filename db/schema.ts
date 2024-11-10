@@ -28,7 +28,7 @@ export const UsersRelations = relations(UserTable, ({ one, many }) => ({
     fields: [UserTable.id],
     references: [AccountTable.userId],
   }),
-  conversations: many(UserConversations),
+  conversations: many(UserConversationsTable),
 }));
 
 export const AccountTable = mysqlTable("account", {
@@ -69,7 +69,7 @@ export const ConversationRelations = relations(
   ConversationTable,
   ({ many }) => ({
     messages: many(MessageTable),
-    users: many(UserConversations),
+    users: many(UserConversationsTable),
   })
 );
 
@@ -100,7 +100,7 @@ export const MessageRelations = relations(MessageTable, ({ one, many }) => ({
   }),
 }));
 
-export const UserConversations = mysqlTable(
+export const UserConversationsTable = mysqlTable(
   "user_conversations",
   {
     userId: varchar({ length: 255 })
@@ -119,14 +119,14 @@ export const UserConversations = mysqlTable(
 );
 
 export const UserConversationsRelations = relations(
-  UserConversations,
+  UserConversationsTable,
   ({ one }) => ({
     user: one(UserTable, {
-      fields: [UserConversations.userId],
+      fields: [UserConversationsTable.userId],
       references: [UserTable.id],
     }),
     conversation: one(ConversationTable, {
-      fields: [UserConversations.conversationId],
+      fields: [UserConversationsTable.conversationId],
       references: [ConversationTable.id],
     }),
   })

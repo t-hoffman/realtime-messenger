@@ -8,6 +8,7 @@ import { BsGithub, BsGoogle } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const LOGIN = "LOGIN";
 const REGISTER = "REGISTER";
@@ -51,13 +52,9 @@ export default function AuthForm() {
 
       if (variant === REGISTER) {
         try {
-          await fetch("/api/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }).then(() => signIn("credentials", data));
+          await axios
+            .post("/api/register", data)
+            .then(() => signIn("credentials", data));
         } catch (err) {
           toast.error("Something went wrong!");
         }

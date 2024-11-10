@@ -2,25 +2,36 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import { useMutation } from "@apollo/client";
+
+import { addConversationQuery } from "@/db/queries/addConversation";
 import Avatar from "@/app/components/Avatar";
 
 const UserBox = ({ data }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [addConvo] = useMutation(addConversationQuery);
+
   const handleClick = useCallback(() => {
     setIsLoading(true);
 
-    fetch("/api/conversations", {
-      method: "POST",
-      body: JSON.stringify({ userId: data.id }),
+    addConvo({
+      variables: {
+        input: { userId: data.id },
+      },
     })
       .then((data) => {
-        router.push(`/conversations/${data.data.id}`);
+        const {
+          data: {
+            addConversation: { id },
+          },
+        } = data;
+
+        router.push(`/conversations/${id}`);
       })
-      .catch(() => {})
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [data, router]);
 
   return (
     <div

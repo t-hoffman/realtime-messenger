@@ -6,16 +6,16 @@ const getUsers = async () => {
   const session = await getSession();
 
   if (!session?.user?.email) return [];
-
   try {
     const users = await db
       .select()
       .from(UserTable)
       .where(not(eq(UserTable.email, session.user.email)))
-      .orderBy(desc(UserTable.email));
+      .orderBy(desc(UserTable.createdAt));
 
     return users;
   } catch (err) {
+    console.log(err);
     return [];
   }
 };
