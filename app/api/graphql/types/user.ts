@@ -13,5 +13,5 @@ export class User {
   email!: string;
 
   @Field(() => String, { nullable: true })
-  image?: string;
+  image?: string | null;
 }

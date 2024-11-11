@@ -8,7 +8,12 @@ import { User } from "../types/user";
 
 export async function getUserById(id: string) {
   const [user] = await db
-    .select()
+    .select({
+      id: UserTable.id,
+      name: UserTable.name,
+      email: UserTable.email,
+      image: UserTable.image,
+    })
     .from(UserTable)
     .where(eq(UserTable.id, id))
     .limit(1);

@@ -1,5 +1,7 @@
 import { UUIDResolver } from "graphql-scalars";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
+import { User } from "./user";
+import { Message } from "./message";
 
 @ObjectType()
 export class Conversation {
@@ -17,6 +19,12 @@ export class Conversation {
 
   @Field(() => Boolean)
   isGroup!: boolean;
+
+  @Field(() => [User])
+  users!: User[];
+
+  @Field(() => [Message])
+  messages?: Message[];
 }
 
 @InputType()

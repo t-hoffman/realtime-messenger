@@ -8,6 +8,24 @@ export const getConversationsQuery = gql`
       createdAt
       lastMessageAt
       isGroup
+      users {
+        id
+        name
+        email
+        image
+      }
+      messages {
+        id
+        body
+        image
+        createdAt
+        sender {
+          id
+          name
+          email
+          image
+        }
+      }
     }
   }
 `;

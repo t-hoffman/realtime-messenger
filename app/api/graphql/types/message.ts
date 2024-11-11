@@ -7,14 +7,14 @@ export class Message {
   @Field(() => ID)
   id!: number;
 
-  @Field(() => String)
-  body!: string;
+  @Field(() => String, { nullable: true })
+  body!: string | null;
 
   @Field(() => String, { nullable: true })
-  image?: string;
+  image?: string | null;
 
-  @Field()
-  createdAt!: Date;
+  @Field(() => Date)
+  createdAt!: Date | null;
 
   @Field(() => ID)
   conversationId!: number;

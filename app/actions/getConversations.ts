@@ -14,7 +14,7 @@ const getConversations = async () => {
       query: getConversationsQuery,
       variables: { userId: currentUser.id },
     });
-
+    console.log("DATA", data);
     return data.getConversations;
   } catch (err) {
     console.log(err);

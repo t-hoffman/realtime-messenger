@@ -1,6 +1,7 @@
 import db, {
   ConversationTable,
   UserConversationsTable,
+  UserTable,
 } from "@/app/libs/drizzle";
 import { aliasedTable, and, eq } from "drizzle-orm";
 
@@ -141,4 +142,20 @@ export async function getConversationsByUser(userId: string) {
     .orderBy(ConversationTable.lastMessageAt);
 
   return conversations as [Conversation];
+}
+
+export async function getUsersInConversation(conversation: Conversation) {
+  return await db
+    .select({
+      id: UserTable.id,
+      name: UserTable.name,
+      email: UserTable.email,
+      image: UserTable.image,
+    })
+    .from(UserTable)
+    .innerJoin(
+      UserConversationsTable,
+      eq(UserConversationsTable.conversationId, conversation.id)
+    )
+    .where(eq(UserTable.id, UserConversationsTable.userId));
 }
