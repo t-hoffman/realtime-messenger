@@ -15,7 +15,6 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, 12);
     const [user] = await db
       .insert(UserTable)
-      // @ts-ignore: Unreachable code error
       .values({ email, name, password: hashedPassword })
       .$returningId();
     const [newUser] = await db

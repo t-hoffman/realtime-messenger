@@ -1,5 +1,5 @@
 import { UUIDResolver } from "graphql-scalars";
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { User } from "./user";
 
 @ObjectType()
@@ -8,7 +8,7 @@ export class Message {
   id!: number;
 
   @Field(() => String, { nullable: true })
-  body!: string | null;
+  body?: string | null;
 
   @Field(() => String, { nullable: true })
   image?: string | null;
@@ -24,4 +24,22 @@ export class Message {
 
   @Field(() => User)
   sender?: User;
+}
+
+@InputType()
+export class MessageInput {
+  @Field(() => String, { nullable: true })
+  body?: string | null;
+
+  @Field(() => String, { nullable: true })
+  image?: string | null;
+
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | null;
+
+  @Field(() => ID)
+  conversationId!: number;
+
+  @Field(() => ID, { nullable: true })
+  senderId?: number;
 }

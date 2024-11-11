@@ -1,6 +1,7 @@
 import {
   Arg,
   FieldResolver,
+  ID,
   Mutation,
   Query,
   Resolver,
@@ -9,6 +10,7 @@ import {
 import { Conversation, ConversationInput } from "../types/conversation";
 import {
   addNewCoversation,
+  getConversationById,
   getConversationsByUser,
   getUsersInConversation,
 } from "../services/conversation.service";
@@ -23,6 +25,13 @@ export class ConversationResolver {
     @Arg("userId", () => String) userId: string
   ): Promise<Conversation[]> {
     return await getConversationsByUser(userId);
+  }
+
+  @Query(() => Conversation)
+  async getConversation(
+    @Arg("conversationId", () => ID) conversationId: number
+  ): Promise<Conversation> {
+    return await getConversationById(conversationId);
   }
 
   @FieldResolver(() => [User])

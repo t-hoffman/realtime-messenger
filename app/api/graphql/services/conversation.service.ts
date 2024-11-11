@@ -3,7 +3,7 @@ import db, {
   UserConversationsTable,
   UserTable,
 } from "@/app/libs/drizzle";
-import { aliasedTable, and, eq } from "drizzle-orm";
+import { aliasedTable, and, desc, eq } from "drizzle-orm";
 
 import {
   Conversation,
@@ -139,7 +139,7 @@ export async function getConversationsByUser(userId: string) {
       eq(ConversationTable.id, UserConversationsTable.conversationId)
     )
     .where(eq(UserConversationsTable.userId, userId))
-    .orderBy(ConversationTable.lastMessageAt);
+    .orderBy(desc(ConversationTable.lastMessageAt));
 
   return conversations as [Conversation];
 }
@@ -158,4 +158,19 @@ export async function getUsersInConversation(conversation: Conversation) {
       eq(UserConversationsTable.conversationId, conversation.id)
     )
     .where(eq(UserTable.id, UserConversationsTable.userId));
+}
+
+export async function getConversationById(id: number) {
+  const [conversation] = await db
+    .select({
+      id: ConversationTable.id,
+      name: ConversationTable.name,
+      createdAt: ConversationTable.createdAt,
+      lastMessageAt: ConversationTable.lastMessageAt,
+      isGroup: ConversationTable.isGroup,
+    })
+    .from(ConversationTable)
+    .where(eq(ConversationTable.id, id));
+
+  return conversation as Conversation;
 }
