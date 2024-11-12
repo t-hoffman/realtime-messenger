@@ -20,7 +20,7 @@ const ConversationId = async ({ params }) => {
 
   const { messages } = conversation;
 
-  console.log(conversation, messages);
+  // console.log(conversation, messages);
 
   return (
     <div className="lg:pl-80 h-full">

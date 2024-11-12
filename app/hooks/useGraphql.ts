@@ -12,7 +12,6 @@ export default async function useGraphql({
 
     return data.data[queryName];
   } catch (err) {
-    console.log("hayy");
     return defaultReturn;
   }
 }

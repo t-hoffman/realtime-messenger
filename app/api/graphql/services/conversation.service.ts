@@ -1,5 +1,6 @@
 import db, {
   ConversationTable,
+  MessageTable,
   UserConversationsTable,
   UserTable,
 } from "@/app/libs/drizzle";
@@ -84,7 +85,7 @@ export async function addNewCoversation(input: ConversationInput) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.id || !currentUser?.email) {
-    throw new Error("Unauthorized");
+    throw new Error("Unauthorized User");
   }
 
   let conversationData = {};
@@ -151,6 +152,7 @@ export async function getUsersInConversation(conversation: Conversation) {
       name: UserTable.name,
       email: UserTable.email,
       image: UserTable.image,
+      createdAt: UserTable.createdAt,
     })
     .from(UserTable)
     .innerJoin(
@@ -173,4 +175,30 @@ export async function getConversationById(id: number) {
     .where(eq(ConversationTable.id, id));
 
   return conversation as Conversation;
+}
+
+export async function deleteConversationById(conversationId: number) {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser?.id || !currentUser?.email) {
+    throw new Error("Unauthorized User");
+  }
+
+  return await db.transaction(async (trx) => {
+    const count = await trx
+      .delete(ConversationTable)
+      .where(eq(ConversationTable.id, conversationId));
+    console.log("count:", count);
+    if (!count) return false;
+
+    await trx
+      .delete(UserConversationsTable)
+      .where(eq(UserConversationsTable.conversationId, conversationId));
+
+    await trx
+      .delete(MessageTable)
+      .where(eq(MessageTable.conversationId, conversationId));
+
+    return true;
+  });
 }

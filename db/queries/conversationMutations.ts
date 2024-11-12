@@ -1,6 +1,6 @@
 import { gql } from "graphql-tag";
 
-export const addConversationQuery = gql`
+export const ADD_CONVERSATION_MUTATION = gql`
   mutation AddConversation($input: ConversationInput!) {
     addConversation(input: $input) {
       id
@@ -9,5 +9,11 @@ export const addConversationQuery = gql`
       createdAt
       lastMessageAt
     }
+  }
+`;
+
+export const DELETE_CONVERSATION_MUTATION = gql`
+  mutation DeleteConversation($conversationId: ID!) {
+    deleteConversation(conversationId: $conversationId)
   }
 `;

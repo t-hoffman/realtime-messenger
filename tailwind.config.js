@@ -13,4 +13,13 @@ module.exports = {
       strategy: "class",
     }),
   ],
+  "tailwindCSS.includeLanguages": {
+    javascript: "javascript",
+    typescript: "typescript",
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+  },
 };

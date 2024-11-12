@@ -10,6 +10,7 @@ import {
 import { Conversation, ConversationInput } from "../types/conversation";
 import {
   addNewCoversation,
+  deleteConversationById,
   getConversationById,
   getConversationsByUser,
   getUsersInConversation,
@@ -49,5 +50,12 @@ export class ConversationResolver {
     @Arg("input") input: ConversationInput
   ): Promise<Conversation> {
     return (await addNewCoversation(input)) as Conversation;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteConversation(
+    @Arg("conversationId", () => ID) conversationId: number
+  ): Promise<Boolean> {
+    return await deleteConversationById(conversationId);
   }
 }

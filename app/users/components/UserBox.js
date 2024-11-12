@@ -4,19 +4,19 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useMutation } from "@apollo/client";
 
-import { addConversationQuery } from "@/db/queries/addConversation";
+import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import Avatar from "@/app/components/Avatar";
 
 const UserBox = ({ data }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [addConvo] = useMutation(addConversationQuery);
+  const [newConversation] = useMutation(ADD_CONVERSATION_MUTATION);
 
   const handleClick = useCallback(() => {
     setIsLoading(true);
 
-    addConvo({
+    newConversation({
       variables: {
         input: { userId: data.id },
       },

@@ -48,6 +48,8 @@ const MessageBox = ({ data, isLast }) => {
                 hover:scale-110 
                 transition 
                 translate
+                w-auto
+                height-auto
               "
             />
           ) : (

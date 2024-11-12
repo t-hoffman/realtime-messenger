@@ -13,6 +13,7 @@ export async function getUserById(id: string) {
       name: UserTable.name,
       email: UserTable.email,
       image: UserTable.image,
+      createdAt: UserTable.createdAt,
     })
     .from(UserTable)
     .where(eq(UserTable.id, id))
