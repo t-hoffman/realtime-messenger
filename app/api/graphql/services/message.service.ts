@@ -1,9 +1,8 @@
 import db, { ConversationTable, MessageTable } from "@/app/libs/drizzle";
 import { asc, eq } from "drizzle-orm";
 import { Message, MessageInput } from "../types/message";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 
-export async function getMessagesInConversation(conversationId: number) {
+export async function getMessagesInConversation(conversationId: string) {
   const messages = await db
     .select()
     .from(MessageTable)
@@ -13,8 +12,8 @@ export async function getMessagesInConversation(conversationId: number) {
   return messages as Message[];
 }
 
-export async function addMessage(message: MessageInput) {
-  const currentUser = await getCurrentUser();
+export async function addMessage(message: MessageInput, context: any) {
+  const { currentUser } = context;
 
   if (!currentUser?.id || !currentUser?.email) {
     throw new Error("User not authorized.");

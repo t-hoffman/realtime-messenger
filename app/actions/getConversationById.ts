@@ -7,14 +7,16 @@ const getConversationById = async (conversationId: number) => {
 
   if (!currentUser?.email) return null;
 
-  const conversation = await useGraphql({
+  const { data, error } = await useGraphql({
     queryName: "getConversation",
     query: CONVERSATION_BY_ID_QUERY,
     variables: { conversationId },
     defaultReturn: null,
   });
 
-  return conversation;
+  if (error) return null;
+
+  return data;
 };
 
 export default getConversationById;

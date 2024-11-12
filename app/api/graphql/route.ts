@@ -1,12 +1,13 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
-import { NextResponse } from "next/server";
 import { buildSchema } from "type-graphql";
 import {
   ConversationResolver,
   MessageResolver,
   UserResolver,
 } from "./resolvers";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 const schema = await buildSchema({
   resolvers: [ConversationResolver, MessageResolver, UserResolver],
@@ -14,24 +15,8 @@ const schema = await buildSchema({
 
 const server = new ApolloServer({ schema });
 
-export async function graphqlHandler(req: Request) {
-  const { query, variables } = await req.json();
+const handler = startServerAndCreateNextHandler(server, {
+  context: async (req, res) => ({ currentUser: await getCurrentUser() }),
+});
 
-  const resp = await server.executeOperation({
-    query,
-    variables,
-  });
-
-  let result;
-
-  if (resp.body.kind === "incremental") {
-    result = resp.body.initialResult;
-  } else {
-    result = resp.body.singleResult;
-  }
-
-  return NextResponse.json(result);
-}
-
-export const POST = graphqlHandler;
-export const GET = graphqlHandler;
+export { handler as GET, handler as POST };

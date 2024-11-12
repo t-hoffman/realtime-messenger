@@ -58,7 +58,7 @@ export const AccountRelations = relations(AccountTable, ({ one }) => ({
 }));
 
 export const ConversationTable = mysqlTable("conversation", {
-  id: serial().primaryKey(),
+  id: varchar({ length: 36 }).primaryKey().$defaultFn(uuidv4),
   createdAt: timestamp().defaultNow(),
   lastMessageAt: timestamp().defaultNow(),
   name: varchar({ length: 255 }),
@@ -79,7 +79,7 @@ export const MessageTable = mysqlTable("message", {
   image: text(),
   createdAt: timestamp().defaultNow(),
 
-  conversationId: bigint({ mode: "number", unsigned: true })
+  conversationId: varchar({ length: 36 })
     .references(() => ConversationTable.id, {
       onDelete: "cascade",
     })
@@ -106,7 +106,7 @@ export const UserConversationsTable = mysqlTable(
     userId: varchar({ length: 255 })
       .references(() => UserTable.id, { onDelete: "cascade" })
       .notNull(),
-    conversationId: bigint({ mode: "number", unsigned: true })
+    conversationId: varchar({ length: 36 })
       .references(() => ConversationTable.id, { onDelete: "cascade" })
       .notNull(),
   },

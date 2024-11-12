@@ -1,5 +1,6 @@
 import {
   Arg,
+  Ctx,
   FieldResolver,
   ID,
   Mutation,
@@ -21,6 +22,10 @@ import { getMessagesInConversation } from "../services/message.service";
 
 @Resolver(Conversation)
 export class ConversationResolver {
+  /**
+   *  QUERIES
+   */
+
   @Query(() => [Conversation])
   async getConversations(
     @Arg("userId", () => String) userId: string
@@ -30,10 +35,35 @@ export class ConversationResolver {
 
   @Query(() => Conversation)
   async getConversation(
-    @Arg("conversationId", () => ID) conversationId: number
+    @Arg("conversationId", () => ID) conversationId: string,
+    @Ctx() context: any
   ): Promise<Conversation> {
-    return await getConversationById(conversationId);
+    return await getConversationById(conversationId, context);
   }
+
+  /**
+   *  MUTATIONS
+   */
+
+  @Mutation(() => Conversation)
+  async addConversation(
+    @Arg("input") input: ConversationInput,
+    @Ctx() context: any
+  ): Promise<Conversation> {
+    return (await addNewCoversation(input, context)) as Conversation;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteConversation(
+    @Arg("conversationId", () => ID) conversationId: string,
+    @Ctx() context: any
+  ): Promise<Boolean> {
+    return await deleteConversationById(conversationId, context);
+  }
+
+  /**
+   *  FIELD RESOLVERS
+   */
 
   @FieldResolver(() => [User])
   async users(@Root() conversation: Conversation): Promise<User[]> {
@@ -43,19 +73,5 @@ export class ConversationResolver {
   @FieldResolver(() => [Message])
   async messages(@Root() conversation: Conversation): Promise<Message[]> {
     return await getMessagesInConversation(conversation.id);
-  }
-
-  @Mutation(() => Conversation)
-  async addConversation(
-    @Arg("input") input: ConversationInput
-  ): Promise<Conversation> {
-    return (await addNewCoversation(input)) as Conversation;
-  }
-
-  @Mutation(() => Boolean)
-  async deleteConversation(
-    @Arg("conversationId", () => ID) conversationId: number
-  ): Promise<Boolean> {
-    return await deleteConversationById(conversationId);
   }
 }

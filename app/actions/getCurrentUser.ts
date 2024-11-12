@@ -8,13 +8,15 @@ const getCurrentUser = async () => {
 
     if (!session?.user?.email) return null;
 
-    const [currentUser] = await db
+    const [selectedUser] = await db
       .select()
       .from(UserTable)
       .where(eq(UserTable.email, session.user.email))
       .limit(1);
 
-    if (!currentUser) return null;
+    if (!selectedUser) return null;
+
+    const { password, ...currentUser } = selectedUser;
 
     return currentUser;
   } catch (err) {

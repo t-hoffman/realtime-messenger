@@ -6,7 +6,7 @@ import { Message } from "./message";
 @ObjectType()
 export class Conversation {
   @Field(() => ID)
-  id!: number;
+  id!: string;
 
   @Field()
   createdAt!: Date;
@@ -48,5 +48,5 @@ export class UserConversations {
   userId!: string;
 
   @Field(() => ID)
-  conversationId!: number;
+  conversationId!: string;
 }

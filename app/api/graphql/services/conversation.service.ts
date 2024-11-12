@@ -37,18 +37,6 @@ const convoSQLTransaction = async (
 };
 
 const directConvoExists = async (userId1: string, userId2: string) => {
-  // `
-  // SELECT *
-  //   FROM user_conversations AS uc1
-  //   JOIN user_conversations AS uc2
-  //     ON uc1.conversationId = uc2.conversationId
-  //   JOIN conversation AS c
-  //     ON uc1.conversationId = c.id
-  //   WHERE uc1.userId = ${userId1}
-  //     AND uc2.userId = ${userId2}
-  //     AND c.isGroup = false
-  //   LIMIT 1
-  // `;
   const UC1 = aliasedTable(UserConversationsTable, "UC1");
   const UC2 = aliasedTable(UserConversationsTable, "UC2");
 
@@ -81,8 +69,11 @@ const directConvoExists = async (userId1: string, userId2: string) => {
   return conversation || false;
 };
 
-export async function addNewCoversation(input: ConversationInput) {
-  const currentUser = await getCurrentUser();
+export async function addNewCoversation(
+  input: ConversationInput,
+  context: any
+) {
+  const { currentUser } = context;
 
   if (!currentUser?.id || !currentUser?.email) {
     throw new Error("Unauthorized User");
@@ -162,7 +153,13 @@ export async function getUsersInConversation(conversation: Conversation) {
     .where(eq(UserTable.id, UserConversationsTable.userId));
 }
 
-export async function getConversationById(id: number) {
+export async function getConversationById(id: string, context: any) {
+  if (!context.currentUser?.id || !context.currentUser?.email) {
+    throw new Error("Unauthorized User");
+  }
+
+  const { currentUser } = context;
+
   const [conversation] = await db
     .select({
       id: ConversationTable.id,
@@ -172,24 +169,55 @@ export async function getConversationById(id: number) {
       isGroup: ConversationTable.isGroup,
     })
     .from(ConversationTable)
-    .where(eq(ConversationTable.id, id));
+    .innerJoin(
+      UserConversationsTable,
+      eq(UserConversationsTable.conversationId, ConversationTable.id)
+    )
+    .where(
+      and(
+        eq(ConversationTable.id, id),
+        eq(UserConversationsTable.userId, currentUser.id)
+      )
+    );
+
+  if (!conversation) {
+    throw new Error("Conversation does not exist or unauthorized user");
+  }
 
   return conversation as Conversation;
 }
 
-export async function deleteConversationById(conversationId: number) {
-  const currentUser = await getCurrentUser();
+export async function deleteConversationById(
+  conversationId: string,
+  context: any
+) {
+  const { currentUser } = context;
 
   if (!currentUser?.id || !currentUser?.email) {
     throw new Error("Unauthorized User");
   }
 
+  const userInConvo = await db
+    .select()
+    .from(UserConversationsTable)
+    .where(
+      and(
+        eq(UserConversationsTable.userId, currentUser.id),
+        eq(UserConversationsTable.conversationId, conversationId)
+      )
+    )
+    .limit(1);
+
+  if (!userInConvo.length) {
+    throw new Error("Unauthorized User");
+  }
+
   return await db.transaction(async (trx) => {
-    const count = await trx
+    const [deleteCount] = await trx
       .delete(ConversationTable)
       .where(eq(ConversationTable.id, conversationId));
-    console.log("count:", count);
-    if (!count) return false;
+
+    if (deleteCount?.affectedRows === 0) return false;
 
     await trx
       .delete(UserConversationsTable)

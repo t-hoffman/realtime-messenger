@@ -1,8 +1,8 @@
 import {
   Arg,
+  Ctx,
   FieldResolver,
   Mutation,
-  Query,
   Resolver,
   Root,
 } from "type-graphql";
@@ -19,7 +19,10 @@ export class MessageResolver {
   }
 
   @Mutation(() => Message)
-  async sendMessage(@Arg("message") message: MessageInput): Promise<Message> {
-    return await addMessage(message);
+  async sendMessage(
+    @Arg("message") message: MessageInput,
+    @Ctx() context: any
+  ): Promise<Message> {
+    return await addMessage(message, context);
   }
 }

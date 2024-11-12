@@ -17,7 +17,7 @@ export class Message {
   createdAt!: Date | null;
 
   @Field(() => ID)
-  conversationId!: number;
+  conversationId!: string;
 
   @Field(() => UUIDResolver)
   senderId!: string;
@@ -38,7 +38,7 @@ export class MessageInput {
   createdAt?: Date | null;
 
   @Field(() => ID)
-  conversationId!: number;
+  conversationId!: string;
 
   @Field(() => ID, { nullable: true })
   senderId?: number;
