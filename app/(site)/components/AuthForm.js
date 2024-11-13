@@ -122,7 +122,6 @@ export default function AuthForm() {
             <Input
               id="name"
               label="Name"
-              type="name"
               disabled={isPending}
               required={true}
               errors={state.errors}
@@ -132,7 +131,6 @@ export default function AuthForm() {
           <Input
             id="email"
             label="Email address"
-            type="email"
             disabled={isPending}
             required={true}
             errors={state.errors}
@@ -141,7 +139,6 @@ export default function AuthForm() {
           <Input
             id="password"
             label="Password"
-            type="password"
             disabled={isPending}
             required={true}
             errors={state.errors}

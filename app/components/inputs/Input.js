@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-const Input = ({ label, id, type, required, errors, disabled, value }) => {
+const Input = ({ label, id, required, errors, disabled, value }) => {
   return (
     <div>
       <label
@@ -13,7 +13,7 @@ const Input = ({ label, id, type, required, errors, disabled, value }) => {
         <input
           id={id}
           name={id}
-          type={type}
+          type={id}
           autoComplete={id}
           disabled={disabled}
           required={required}

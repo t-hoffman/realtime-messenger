@@ -1,5 +1,5 @@
 import { UUIDResolver } from "graphql-scalars";
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class User {
@@ -17,4 +17,19 @@ export class User {
 
   @Field(() => Date)
   createdAt!: Date;
+
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date;
+}
+
+@InputType()
+export class UserInput {
+  @Field(() => UUIDResolver)
+  userId!: string;
+
+  @Field(() => String)
+  name!: string;
+
+  @Field(() => String, { nullable: true })
+  image?: string;
 }

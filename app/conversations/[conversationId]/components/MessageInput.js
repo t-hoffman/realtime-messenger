@@ -6,7 +6,6 @@ const MessageInput = ({ id, errors, required, placeholder }) => {
       <input
         id={id}
         name={id}
-        type={id}
         autoComplete={id}
         required={required || false}
         placeholder={placeholder}

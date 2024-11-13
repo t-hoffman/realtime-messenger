@@ -28,8 +28,8 @@ const ConfirmModal = ({ children, isOpen, onClose }) => {
       console.log(deleteConversation);
 
       if (deleteConversation) {
-        // router.push("/conversations");
-        // router.refresh();
+        router.push("/conversations");
+        router.refresh();
       }
     } catch (err) {
       console.log(err);

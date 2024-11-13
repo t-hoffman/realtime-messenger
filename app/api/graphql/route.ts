@@ -13,7 +13,13 @@ const schema = await buildSchema({
   resolvers: [ConversationResolver, MessageResolver, UserResolver],
 });
 
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({
+  schema,
+  formatError: (err) => {
+    console.error(err); // Log the error
+    return err;
+  },
+});
 
 const handler = startServerAndCreateNextHandler(server, {
   context: async (req, res) => ({ currentUser: await getCurrentUser() }),
