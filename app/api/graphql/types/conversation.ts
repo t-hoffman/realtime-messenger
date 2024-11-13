@@ -29,8 +29,8 @@ export class Conversation {
 
 @InputType()
 export class ConversationInput {
-  @Field(() => UUIDResolver)
-  userId!: string;
+  // @Field(() => UUIDResolver)
+  // userId!: string;
 
   @Field(() => String, { nullable: true })
   name?: string;
@@ -38,8 +38,8 @@ export class ConversationInput {
   @Field(() => Boolean, { nullable: true })
   isGroup?: boolean;
 
-  @Field(() => [String], { nullable: true })
-  members?: [string];
+  @Field(() => [String])
+  members!: [string];
 }
 
 @ObjectType()

@@ -80,7 +80,7 @@ export async function addNewCoversation(
   }
 
   let conversationData = {};
-  const { userId, isGroup, members, name } = input;
+  const { isGroup, members, name } = input;
   const conversationInfo = {
     name: name || "",
     isGroup: isGroup || false,
@@ -88,16 +88,20 @@ export async function addNewCoversation(
     lastMessageAt: new Date(),
   };
 
-  if (isGroup && (!members || members.length < 2 || !name)) {
+  if (
+    (isGroup && (!members || members.length < 2 || !name)) ||
+    (!isGroup && (!members || !members.length))
+  ) {
     throw new Error("Invalid data");
   }
 
   if (isGroup) {
-    conversationData = await convoSQLTransaction(
-      conversationInfo,
-      members as string[]
-    );
+    conversationData = await convoSQLTransaction(conversationInfo, [
+      ...(members as string[]),
+      currentUser.id,
+    ]);
   } else {
+    const [userId] = input.members;
     const existingConversation = await directConvoExists(
       userId,
       currentUser.id

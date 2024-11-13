@@ -18,7 +18,7 @@ const UserBox = ({ data }) => {
 
     newConversation({
       variables: {
-        input: { userId: data.id },
+        input: { members: [data.id] },
       },
     })
       .then((data) => {
