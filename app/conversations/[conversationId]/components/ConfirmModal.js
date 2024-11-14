@@ -11,7 +11,7 @@ import { FiAlertTriangle } from "react-icons/fi";
 import { DialogTitle } from "@headlessui/react";
 import Button from "@/app/components/Button";
 
-const ConfirmModal = ({ children, isOpen, onClose }) => {
+const ConfirmModal = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { conversationId } = useConversation();

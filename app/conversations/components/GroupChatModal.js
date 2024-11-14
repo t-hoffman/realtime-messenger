@@ -7,11 +7,10 @@ import Modal from "@/app/components/Modal";
 import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useState } from "react";
+import { useActionState, useState } from "react";
 import toast from "react-hot-toast";
 
 const GroupChatModal = ({ isOpen, onClose, users }) => {
-  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [newConversation] = useMutation(ADD_CONVERSATION_MUTATION);
   const [selectedMembers, setSelectedMembers] = useState([]);
@@ -35,14 +34,12 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
           router.refresh();
           onClose();
         })
-        .catch(() => toast.error("Something went wrong."));
+        .catch((err) => toast.error("Something went wrong."));
 
       return { ...prevState, name, members, errors: {} };
     },
     initialValues
   );
-
-  console.log(state);
 
   return (
     <Modal

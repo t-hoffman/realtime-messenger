@@ -1,4 +1,4 @@
-const { ApolloClient, InMemoryCache } = require("@apollo/client");
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 const createApolloClient = () => {
   return new ApolloClient({

@@ -1,14 +1,16 @@
 "use client";
 
+import { useCallback, useState, useActionState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@apollo/client";
+import { CREATE_NEW_USER_MUTATION } from "@/db/queries/userMutations";
+
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
-import { useCallback, useState, useActionState, useEffect } from "react";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import toast from "react-hot-toast";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 
 const LOGIN = "LOGIN";
 const REGISTER = "REGISTER";
@@ -19,15 +21,11 @@ const initialValues = {
   errors: {},
 };
 
-const wait = (time) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
-};
-
 export default function AuthForm() {
   const session = useSession();
   const router = useRouter();
   const [variant, setVariant] = useState(LOGIN);
-  const [isLoading, setIsLoading] = useState(false);
+  const [createUser] = useMutation(CREATE_NEW_USER_MUTATION);
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -51,13 +49,9 @@ export default function AuthForm() {
       });
 
       if (variant === REGISTER) {
-        try {
-          await axios
-            .post("/api/register", data)
-            .then(() => signIn("credentials", data));
-        } catch (err) {
-          toast.error("Something went wrong!");
-        }
+        createUser({ variables: { input: data } })
+          .then(() => signIn("credentials", data))
+          .catch(() => toast.error("Something went wrong!"));
       }
 
       if (variant === LOGIN) {
@@ -82,7 +76,6 @@ export default function AuthForm() {
   );
 
   const socialAction = (action) => {
-    // setIsLoading(true);
     signIn(action, { redirect: false }).then((response) => {
       if (response?.error) {
         toast.error("Invalid credentials");
@@ -92,11 +85,7 @@ export default function AuthForm() {
         toast.success("Logged in!");
       }
     });
-    // .finally(() => setIsLoading(false));
   };
-
-  // console.log(state.email);
-  // console.log(isPending);
 
   return (
     <div

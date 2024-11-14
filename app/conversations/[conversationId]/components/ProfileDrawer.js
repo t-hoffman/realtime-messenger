@@ -11,7 +11,6 @@ import {
 import { format } from "date-fns";
 import { Fragment, useMemo, useState } from "react";
 import { IoClose, IoTrash } from "react-icons/io5";
-import Modal from "@/app/components/Modal";
 import ConfirmModal from "./ConfirmModal";
 import AvatarGroup from "@/app/components/AvatarGroup";
 
@@ -36,11 +35,7 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
 
   return (
     <>
-      <ConfirmModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <div className="bg-white p-5">
-          <p>Hello Modal!</p>
-        </div>
-      </ConfirmModal>
+      <ConfirmModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       <Transition show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={onClose}>
           <TransitionChild
@@ -58,14 +53,14 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
             <div className="absolute inset-0 overflow-hidden">
               <div
                 className="
-                pointer-events-none
-                fixed
-                inset-y-0
-                right-0
-                flex
-                max-w-full
-                pl-10
-              "
+                  pointer-events-none
+                  fixed
+                  inset-y-0
+                  right-0
+                  flex
+                  max-w-full
+                  pl-10
+                "
               >
                 <TransitionChild
                   as={Fragment}
@@ -78,36 +73,36 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
                   <DialogPanel className="pointer-events-auto w-screen max-w-md">
                     <div
                       className="
-                    flex 
-                    h-full 
-                    flex-col 
-                    overflow-y-scroll 
-                    bg-white 
-                    py-6 
-                    shadow-xl
-                  "
+                        flex 
+                        h-full 
+                        flex-col 
+                        overflow-y-scroll 
+                        bg-white 
+                        py-6 
+                        shadow-xl
+                      "
                     >
                       <div className="px-4 sm:px-6">
                         <div
                           className="
-                          flex
-                          items-start
-                          justify-end
-                        "
+                            flex
+                            items-start
+                            justify-end
+                          "
                         >
                           <div className="ml-3 flex h-7 items-center">
                             <button
                               type="button"
                               className="
-                              rounded-md 
-                              bg-white 
-                              text-gray-400 
-                              hover:text-gray-500 
-                              focus:outline-none 
-                              focus:ring-2 
-                              focus:ring-sky-500 
-                              focus:ring-offset-2
-                            "
+                                rounded-md 
+                                bg-white 
+                                text-gray-400 
+                                hover:text-gray-500 
+                                focus:outline-none 
+                                focus:ring-2 
+                                focus:ring-sky-500 
+                                focus:ring-offset-2
+                              "
                             >
                               <span className="sr-only">Close Panel</span>
                               <IoClose onClick={onClose} size={24} />
@@ -132,24 +127,24 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
                             <div
                               onClick={() => setModalOpen(true)}
                               className="
-                              flex 
-                              flex-col 
-                              gap-3 
-                              items-center 
-                              cursor-pointer 
-                              hover:opacity-75
-                            "
+                                flex 
+                                flex-col 
+                                gap-3 
+                                items-center 
+                                cursor-pointer 
+                                hover:opacity-75
+                              "
                             >
                               <div
                                 className="
-                                w-10 
-                                h-10 
-                                bg-neutral-100 
-                                rounded-full 
-                                flex 
-                                items-center 
-                                justify-center
-                              "
+                                  w-10 
+                                  h-10 
+                                  bg-neutral-100 
+                                  rounded-full 
+                                  flex 
+                                  items-center 
+                                  justify-center
+                                "
                               >
                                 <IoTrash size={20} />
                               </div>
@@ -176,12 +171,12 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
                                 <div>
                                   <dt
                                     className="
-                                    text-sm 
-                                    font-medium 
-                                    text-gray-500 
-                                    sm:w-40 
-                                    sm:flex-shrink-0
-                                  "
+                                      text-sm 
+                                      font-medium 
+                                      text-gray-500 
+                                      sm:w-40 
+                                      sm:flex-shrink-0
+                                    "
                                   >
                                     Email
                                   </dt>
@@ -196,22 +191,22 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
                                   <div>
                                     <dt
                                       className="
-                                      text-sm 
-                                      font-medium 
-                                      text-gray-500 
-                                      sm:w-40 
-                                      sm:flex-shrink
-                                    "
+                                        text-sm 
+                                        font-medium 
+                                        text-gray-500 
+                                        sm:w-40 
+                                        sm:flex-shrink
+                                      "
                                     >
                                       Joined
                                     </dt>
                                     <dd
                                       className="
-                                      mt-1 
-                                      text-sm 
-                                      text-gray-900 
-                                      sm:col-span-2
-                                    "
+                                        mt-1 
+                                        text-sm 
+                                        text-gray-900 
+                                        sm:col-span-2
+                                      "
                                     >
                                       <time dateTime={joinedDate}>
                                         {joinedDate}

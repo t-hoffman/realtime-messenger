@@ -11,7 +11,6 @@ import {
   ConversationInput,
   UserConversations,
 } from "../types/conversation";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 
 const convoSQLTransaction = async (
   conversationInfo: Object,
@@ -69,7 +68,7 @@ const directConvoExists = async (userId1: string, userId2: string) => {
   return conversation || false;
 };
 
-export async function addNewCoversation(
+export async function createNewConversation(
   input: ConversationInput,
   context: any
 ) {
@@ -120,7 +119,11 @@ export async function addNewCoversation(
   return conversationData as Conversation;
 }
 
-export async function getConversationsByUser(userId: string) {
+export async function getConversationsByUser(userId: string, context: any) {
+  if (!context.currentUser?.id || !context.currentUser?.email) {
+    throw new Error("Unauthorized User");
+  }
+
   const conversations = await db
     .select({
       id: ConversationTable.id,

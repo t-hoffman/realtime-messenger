@@ -1,6 +1,7 @@
+import bcrypt from "bcrypt";
 import db, { UserTable } from "@/app/libs/drizzle";
 import { eq } from "drizzle-orm";
-import { User, UserInput } from "../types/user";
+import { User, UpdateUserInput, NewUserInput } from "../types/user";
 
 /*
   Try db.query.user.findFirst()
@@ -28,7 +29,7 @@ export async function getAllUsers() {
   return await db.select().from(UserTable);
 }
 
-export async function updateUserById(input: UserInput, context: any) {
+export async function updateUserById(input: UpdateUserInput, context: any) {
   if (
     !context.currentUser?.id ||
     !context.currentUser?.email ||
@@ -43,4 +44,35 @@ export async function updateUserById(input: UserInput, context: any) {
     .where(eq(UserTable.id, context.currentUser.id));
 
   return !!updatedUser;
+}
+
+/**
+ *
+ *
+ * NEED TO IMPLEMENT A CHECK IF THE USER EMAIL EXISTS ALREADY
+ *
+ *
+ */
+
+export async function createNewUser(input: NewUserInput) {
+  const { email, name, password } = input;
+
+  if (!email || !name || !password) {
+    throw new Error("Missing information");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  const [user] = await db
+    .insert(UserTable)
+    .values({ email, name, password: hashedPassword })
+    .$returningId();
+
+  const [newUser] = await db
+    .select()
+    .from(UserTable)
+    .where(eq(UserTable.id, user.id))
+    .limit(1);
+
+  return newUser as User;
 }

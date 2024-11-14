@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   boolean,
   int,
@@ -9,6 +8,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
+import { relations } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const UserTable = mysqlTable("user", {

@@ -10,7 +10,7 @@ import {
 } from "type-graphql";
 import { Conversation, ConversationInput } from "../types/conversation";
 import {
-  addNewCoversation,
+  createNewConversation,
   deleteConversationById,
   getConversationById,
   getConversationsByUser,
@@ -28,9 +28,10 @@ export class ConversationResolver {
 
   @Query(() => [Conversation])
   async getConversations(
-    @Arg("userId", () => String) userId: string
+    @Arg("userId", () => String) userId: string,
+    @Ctx() context: any
   ): Promise<Conversation[]> {
-    return await getConversationsByUser(userId);
+    return await getConversationsByUser(userId, context);
   }
 
   @Query(() => Conversation)
@@ -50,7 +51,7 @@ export class ConversationResolver {
     @Arg("input") input: ConversationInput,
     @Ctx() context: any
   ): Promise<Conversation> {
-    return (await addNewCoversation(input, context)) as Conversation;
+    return (await createNewConversation(input, context)) as Conversation;
   }
 
   @Mutation(() => Boolean)

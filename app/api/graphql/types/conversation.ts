@@ -29,9 +29,6 @@ export class Conversation {
 
 @InputType()
 export class ConversationInput {
-  // @Field(() => UUIDResolver)
-  // userId!: string;
-
   @Field(() => String, { nullable: true })
   name?: string;
 

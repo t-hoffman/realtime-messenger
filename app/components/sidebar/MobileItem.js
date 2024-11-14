@@ -3,7 +3,7 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-const MobileItem = ({ active, href, icon: Icon, label, onClick }) => {
+const MobileItem = ({ active, href, icon: Icon, onClick }) => {
   const handleClick = () => onClick || null;
 
   return (

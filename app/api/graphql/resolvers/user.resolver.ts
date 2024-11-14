@@ -1,7 +1,10 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { User, UserInput } from "../types/user";
-import { getAllUsers, updateUserById } from "../services/user.service";
-import { UUID } from "graphql-scalars/typings/mocks";
+import { User, NewUserInput, UpdateUserInput } from "../types/user";
+import {
+  createNewUser,
+  getAllUsers,
+  updateUserById,
+} from "../services/user.service";
 
 @Resolver(User)
 export class UserResolver {
@@ -10,9 +13,14 @@ export class UserResolver {
     return (await getAllUsers()) as User[];
   }
 
+  @Mutation(() => User)
+  async addUser(@Arg("input") input: NewUserInput): Promise<User> {
+    return await createNewUser(input);
+  }
+
   @Mutation(() => Boolean)
   async updateUser(
-    @Arg("input") input: UserInput,
+    @Arg("input") input: UpdateUserInput,
     @Ctx() context: any
   ): Promise<Boolean> {
     return await updateUserById(input, context);

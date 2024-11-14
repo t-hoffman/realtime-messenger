@@ -15,8 +15,6 @@ const getConversations = async () => {
 
   if (error) return null;
 
-  // console.log("DATA", conversations);
-
   return data;
 };
 

@@ -1,12 +1,15 @@
 "use client";
 
 import Avatar from "@/app/components/Avatar";
+import PhotoModal from "./PhotoModal";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useState } from "react";
 
 const MessageBox = ({ data, isLast }) => {
+  const [photoOpen, setPhotoOpen] = useState(false);
   const session = useSession();
 
   const isOwn = session?.data?.user?.email === data?.sender?.email;
@@ -36,12 +39,18 @@ const MessageBox = ({ data, isLast }) => {
           </div>
         </div>
         <div className={message}>
+          <PhotoModal
+            src={data.image}
+            isOpen={photoOpen}
+            onClose={() => setPhotoOpen(false)}
+          />
           {data.image ? (
             <Image
               alt="Image"
               width={288}
               height={288}
               src={data.image}
+              onClick={() => setPhotoOpen(true)}
               className="
                 object-cover 
                 cursor-pointer 

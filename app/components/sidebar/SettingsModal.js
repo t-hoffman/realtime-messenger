@@ -11,7 +11,6 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_USER_MUTATION } from "@/db/queries/userMutations";
 
 const SettingsModal = ({ isOpen, onClose, currentUser }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState(null);
   const router = useRouter();
   const initialValues = {
@@ -28,9 +27,6 @@ const SettingsModal = ({ isOpen, onClose, currentUser }) => {
       const image = photoUrl || currentUser.image;
       const newValues = { name, image };
 
-      console.log("submit");
-
-      console.log(prevState, newValues);
       try {
         const { data } = await updateProfile({
           variables: { input: { ...newValues, userId: currentUser.id } },

@@ -23,7 +23,7 @@ export class User {
 }
 
 @InputType()
-export class UserInput {
+export class UpdateUserInput {
   @Field(() => UUIDResolver)
   userId!: string;
 
@@ -32,4 +32,19 @@ export class UserInput {
 
   @Field(() => String, { nullable: true })
   image?: string;
+}
+
+@InputType()
+export class NewUserInput {
+  @Field(() => String)
+  name!: string;
+
+  @Field(() => String)
+  email!: string;
+
+  @Field(() => String, { nullable: true })
+  image?: string;
+
+  @Field(() => String)
+  password!: string;
 }
