@@ -14,7 +14,7 @@ const Avatar = ({ user, imageLink = null }) => {
       "
       style={{
         backgroundImage: `url('${
-          imageLink || user?.image || "/images/placeholder.jpg"
+          imageLink || user?.image || "/images/placeholder.png"
         }')`,
       }}
     >

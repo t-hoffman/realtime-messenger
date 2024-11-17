@@ -4,6 +4,7 @@ import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
 import Select from "@/app/components/inputs/Select";
 import Modal from "@/app/components/Modal";
+import clientLocal from "@/app/libs/apolloClientLocal";
 import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
@@ -12,7 +13,9 @@ import toast from "react-hot-toast";
 
 const GroupChatModal = ({ isOpen, onClose, users }) => {
   const router = useRouter();
-  const [newConversation] = useMutation(ADD_CONVERSATION_MUTATION);
+  const [newConversation] = useMutation(ADD_CONVERSATION_MUTATION, {
+    client: clientLocal,
+  });
   const [selectedMembers, setSelectedMembers] = useState([]);
   const initialValues = { members: [], errors: {} };
 

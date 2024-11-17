@@ -1,12 +1,14 @@
 "use client";
 
 import { ApolloProvider } from "@apollo/client";
-import createApolloClient from "../libs/apolloClient";
-
-const client = createApolloClient();
+import { clientAppSync, clientLocal } from "../libs/apolloClients";
 
 const ApolloWrapper = ({ children }) => {
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return (
+    <ApolloProvider client={clientLocal}>
+      <ApolloProvider client={clientAppSync}>{children}</ApolloProvider>
+    </ApolloProvider>
+  );
 };
 
 export default ApolloWrapper;

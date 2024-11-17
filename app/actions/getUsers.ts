@@ -6,6 +6,7 @@ const getUsers = async () => {
   const session = await getSession();
 
   if (!session?.user?.email) return [];
+
   try {
     const users = await db
       .select()

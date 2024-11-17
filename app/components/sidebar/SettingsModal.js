@@ -9,6 +9,7 @@ import Button from "../Button";
 import Avatar from "../Avatar";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_MUTATION } from "@/db/queries/userMutations";
+import clientLocal from "@/app/libs/apolloClientLocal";
 
 const SettingsModal = ({ isOpen, onClose, currentUser }) => {
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -19,7 +20,9 @@ const SettingsModal = ({ isOpen, onClose, currentUser }) => {
     errors: {},
   };
 
-  const [updateProfile] = useMutation(UPDATE_USER_MUTATION);
+  const [updateProfile] = useMutation(UPDATE_USER_MUTATION, {
+    client: clientLocal,
+  });
 
   const [state, submitAction, isPending] = useActionState(
     async (prevState, formData) => {

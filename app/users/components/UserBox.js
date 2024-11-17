@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useMutation } from "@apollo/client";
+import clientLocal from "@/app/libs/apolloClientLocal";
 
 import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import Avatar from "@/app/components/Avatar";
@@ -12,7 +13,9 @@ const UserBox = ({ data }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [newConversation] = useMutation(ADD_CONVERSATION_MUTATION);
+  const [newConversation] = useMutation(ADD_CONVERSATION_MUTATION, {
+    client: clientLocal,
+  });
 
   const handleClick = useCallback(() => {
     setIsLoading(true);

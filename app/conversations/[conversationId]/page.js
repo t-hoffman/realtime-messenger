@@ -3,9 +3,11 @@ import EmptyState from "@/app/components/EmptyState";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Form from "./components/Form";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 const ConversationId = async ({ params }) => {
   const { conversationId } = await params;
+  const currentUser = await getCurrentUser();
   const conversation = await getConversationById(conversationId);
 
   if (!conversation) {
@@ -26,8 +28,8 @@ const ConversationId = async ({ params }) => {
     <div className="lg:pl-80 h-full">
       <div className="h-full flex flex-col">
         <Header conversation={conversation} />
-        <Body initialMessages={conversation.messages} />
-        <Form />
+        <Body initialMessages={messages} />
+        <Form currentUser={currentUser} />
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@apollo/client";
 import { CREATE_NEW_USER_MUTATION } from "@/db/queries/userMutations";
+import clientLocal from "@/app/libs/apolloClientLocal";
 
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
@@ -25,7 +26,9 @@ export default function AuthForm() {
   const session = useSession();
   const router = useRouter();
   const [variant, setVariant] = useState(LOGIN);
-  const [createUser] = useMutation(CREATE_NEW_USER_MUTATION);
+  const [createUser] = useMutation(CREATE_NEW_USER_MUTATION, {
+    client: clientLocal,
+  });
 
   useEffect(() => {
     if (session?.status === "authenticated") {

@@ -7,11 +7,12 @@ import { useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "./GroupChatModal";
+import { useConversations } from "@/app/context/ConversationsContext";
 
 const ConversationList = ({ initialItems, allUsers }) => {
-  const [items, setItems] = useState(initialItems);
+  // const [items, setItems] = useState(initialItems);
+  const { conversations, loading, error } = useConversations();
   const [modalOpen, setModalOpen] = useState(false);
-
   const router = useRouter();
 
   const { conversationId, isOpen } = useConversation();
@@ -58,7 +59,7 @@ const ConversationList = ({ initialItems, allUsers }) => {
               <MdOutlineGroupAdd size={20} />
             </div>
           </div>
-          {items.map((item) => (
+          {conversations.map((item) => (
             <ConversationBox
               key={item.id}
               data={item}

@@ -10,12 +10,18 @@ import toast from "react-hot-toast";
 import { FiAlertTriangle } from "react-icons/fi";
 import { DialogTitle } from "@headlessui/react";
 import Button from "@/app/components/Button";
+import clientLocal from "@/app/libs/apolloClientLocal";
+import { useConversations } from "@/app/context/ConversationsContext";
 
 const ConfirmModal = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { conversationId } = useConversation();
-  const [deleteConvo] = useMutation(DELETE_CONVERSATION_MUTATION);
+  const { refetchConvos } = useConversations();
+
+  const [deleteConvo] = useMutation(DELETE_CONVERSATION_MUTATION, {
+    client: clientLocal,
+  });
 
   const onDelete = useCallback(async () => {
     setIsLoading(true);
@@ -28,6 +34,7 @@ const ConfirmModal = ({ isOpen, onClose }) => {
       console.log(deleteConversation);
 
       if (deleteConversation) {
+        refetchConvos();
         router.push("/conversations");
         router.refresh();
       }
