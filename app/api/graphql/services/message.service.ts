@@ -1,5 +1,5 @@
 import db, { ConversationTable, MessageTable } from "@/app/libs/drizzle";
-import { asc, eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { Message, MessageInput } from "../types/message";
 
 export async function getMessagesInConversation(conversationId: string) {
@@ -7,7 +7,7 @@ export async function getMessagesInConversation(conversationId: string) {
     .select()
     .from(MessageTable)
     .where(eq(MessageTable.conversationId, conversationId))
-    .orderBy(asc(MessageTable.createdAt));
+    .orderBy(desc(MessageTable.createdAt));
 
   return messages as Message[];
 }

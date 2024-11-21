@@ -1,5 +1,5 @@
 import { CONVERSATION_BY_ID_QUERY } from "@/db/queries/conversationQueries";
-import useGraphql from "../hooks/useGraphql";
+import getGraphql from "./getGraphql";
 import getCurrentUser from "./getCurrentUser";
 
 const getConversationById = async (conversationId: number) => {
@@ -7,7 +7,7 @@ const getConversationById = async (conversationId: number) => {
 
   if (!currentUser?.email) return null;
 
-  const { data, error } = await useGraphql({
+  const { data, error } = await getGraphql({
     queryName: "getConversation",
     query: CONVERSATION_BY_ID_QUERY,
     variables: { conversationId },

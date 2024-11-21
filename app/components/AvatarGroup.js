@@ -28,6 +28,7 @@ const AvatarGroup = ({ users = [] }) => {
           <Image
             alt="Avatar"
             fill
+            sizes="(max-width: 100vw) 100%"
             src={user?.image || "/images/placeholder.png"}
           />
         </div>

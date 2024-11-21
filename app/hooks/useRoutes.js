@@ -1,11 +1,14 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import { HiChat } from "react-icons/hi";
-import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
 import { signOut } from "next-auth/react";
 import useConversation from "./useConversation";
+import { IoChatbubbleSharp } from "react-icons/io5";
+import { BsFillPeopleFill } from "react-icons/bs";
+import { TbLogout2 } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 
-const useRoutes = () => {
+export default function useRoutes() {
+  const router = useRouter();
   const pathname = usePathname();
   const { conversationId } = useConversation();
 
@@ -14,26 +17,26 @@ const useRoutes = () => {
       {
         label: "Chat",
         href: "/conversations",
-        icon: HiChat,
+        icon: IoChatbubbleSharp,
         active: pathname === "/conversations" || !!conversationId,
+        onClick: () => router.push("/conversations"),
       },
       {
         label: "Users",
         href: "/users",
-        icon: HiUsers,
+        icon: BsFillPeopleFill,
         active: pathname === "/users",
+        onClick: () => router.push("/users"),
       },
       {
         label: "Logout",
         href: "#",
+        icon: TbLogout2,
         onClick: () => signOut(),
-        icon: HiArrowLeftOnRectangle,
       },
     ],
     [pathname, conversationId]
   );
 
   return routes;
-};
-
-export default useRoutes;
+}

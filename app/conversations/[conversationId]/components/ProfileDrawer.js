@@ -14,7 +14,7 @@ import { IoClose, IoTrash } from "react-icons/io5";
 import ConfirmModal from "./ConfirmModal";
 import AvatarGroup from "@/app/components/AvatarGroup";
 
-const ProfileDrawer = ({ data, isOpen, onClose }) => {
+export default function ProfileDrawer({ data, isOpen, onClose }) {
   const otherUser = useOtherUser(data);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -229,6 +229,4 @@ const ProfileDrawer = ({ data, isOpen, onClose }) => {
       </Transition>
     </>
   );
-};
-
-export default ProfileDrawer;
+}

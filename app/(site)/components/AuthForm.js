@@ -25,39 +25,39 @@ const initialValues = {
 export default function AuthForm() {
   const session = useSession();
   const router = useRouter();
-  const [variant, setVariant] = useState(LOGIN);
+  const [formType, setFormType] = useState(LOGIN);
   const [createUser] = useMutation(CREATE_NEW_USER_MUTATION, {
     client: clientLocal,
   });
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/users");
+      router.replace("/users");
     }
   }, [session?.status, router]);
 
-  const toggleVariant = useCallback(() => {
-    if (variant === LOGIN) {
-      setVariant(REGISTER);
+  const toggleFormType = useCallback(() => {
+    if (formType === LOGIN) {
+      setFormType(REGISTER);
     } else {
-      setVariant(LOGIN);
+      setFormType(LOGIN);
     }
-  }, [variant]);
+  }, [formType]);
 
   const [state, submitAction, isPending] = useActionState(
-    async (prevState, formData) => {
+    async (_prevState, formData) => {
       const data = {};
       formData.forEach((value, key) => {
         data[key] = value;
       });
 
-      if (variant === REGISTER) {
+      if (formType === REGISTER) {
         createUser({ variables: { input: data } })
           .then(() => signIn("credentials", data))
           .catch(() => toast.error("Something went wrong!"));
       }
 
-      if (variant === LOGIN) {
+      if (formType === LOGIN) {
         signIn("credentials", {
           ...data,
           redirect: false,
@@ -91,26 +91,10 @@ export default function AuthForm() {
   };
 
   return (
-    <div
-      className="
-        mt-8
-        sm:mx-auto
-        sm:w-full
-        sm:max-w-md
-      "
-    >
-      <div
-        className="
-          bg-white
-          px-4
-          py-8
-          shadow
-          sm:rounded-lg
-          sm:px-10
-        "
-      >
+    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" action={submitAction} noValidate>
-          {variant === REGISTER && (
+          {formType === REGISTER && (
             <Input
               id="name"
               label="Name"
@@ -138,7 +122,7 @@ export default function AuthForm() {
           />
           <div>
             <Button type="submit" disabled={isPending} fullWidth>
-              {variant === LOGIN ? "Sign in" : "Register"}
+              {formType === LOGIN ? "Sign in" : "Register"}
             </Button>
           </div>
         </form>
@@ -164,12 +148,12 @@ export default function AuthForm() {
         </div>
         <div className="flex gap-2 justify-center text-sm empty-6 mt-6 px-2 text-gray-500">
           <div>
-            {variant === LOGIN
+            {formType === LOGIN
               ? "New to Messenger?"
               : "Already have an account?"}
           </div>
-          <div onClick={toggleVariant} className="underline cursor-pointer">
-            {variant === LOGIN ? "Create an account" : "Login"}
+          <div onClick={toggleFormType} className="underline cursor-pointer">
+            {formType === LOGIN ? "Create an account" : "Sign in"}
           </div>
         </div>
       </div>

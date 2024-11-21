@@ -1,15 +1,17 @@
 "use client";
 
-const MessageInput = ({ id, errors, required, placeholder }) => {
-  return (
-    <div className="relative w-full">
-      <input
-        id={id}
-        name={id}
-        autoComplete={id}
-        required={required || false}
-        placeholder={placeholder}
-        className="
+import clsx from "clsx";
+
+const MessageInput = ({ id, errors, required, placeholder }) => (
+  <div className="relative w-full">
+    <input
+      id={id}
+      name={id}
+      autoComplete="off"
+      required={required || false}
+      placeholder={placeholder}
+      className={clsx(
+        `
           text-black
           font-light
           py-2
@@ -18,10 +20,11 @@ const MessageInput = ({ id, errors, required, placeholder }) => {
           w-full
           rounded-full
           focus:outline-none
-        "
-      />
-    </div>
-  );
-};
+        `,
+        errors?.[id] && "ring-1 ring-rose-300"
+      )}
+    />
+  </div>
+);
 
 export default MessageInput;

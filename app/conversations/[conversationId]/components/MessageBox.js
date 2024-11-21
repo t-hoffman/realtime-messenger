@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 
-const MessageBox = ({ data, isLast }) => {
+export default function MessageBox({ data, isLast }) {
   const [photoOpen, setPhotoOpen] = useState(false);
   const session = useSession();
 
@@ -22,8 +22,8 @@ const MessageBox = ({ data, isLast }) => {
 
   const message = clsx(
     "text-sm w-fit overflow-hidden",
-    isOwn ? "bg-sky-500 text-white" : "bg-gray-100",
-    data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
+    isOwn ? "bg-blue-600 text-white" : "bg-gray-100",
+    data.image ? "rounded-md p-0" : "rounded-[25px] py-2 px-3"
   );
 
   return (
@@ -49,6 +49,7 @@ const MessageBox = ({ data, isLast }) => {
               alt="Image"
               width={288}
               height={288}
+              priority={true}
               src={data.image}
               onClick={() => setPhotoOpen(true)}
               className="
@@ -68,6 +69,4 @@ const MessageBox = ({ data, isLast }) => {
       </div>
     </div>
   );
-};
-
-export default MessageBox;
+}

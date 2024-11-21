@@ -18,11 +18,11 @@ export class UserResolver {
     return await createNewUser(input);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => User)
   async updateUser(
     @Arg("input") input: UpdateUserInput,
     @Ctx() context: any
-  ): Promise<Boolean> {
+  ): Promise<User> {
     return await updateUserById(input, context);
   }
 }

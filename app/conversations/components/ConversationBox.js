@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
-const ConversationBox = ({ data, selected }) => {
+export default function ConversationBox({ data, selected }) {
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
@@ -19,8 +19,8 @@ const ConversationBox = ({ data, selected }) => {
   }, [data.id, router]);
 
   const lastMessage = useMemo(() => {
-    const messages = data.messages || [];
-    return messages[messages.length - 1];
+    const [message] = data.messages || [];
+    return message;
   }, [data.messages]);
 
   const userEmail = useMemo(
@@ -95,6 +95,4 @@ const ConversationBox = ({ data, selected }) => {
       </div>
     </div>
   );
-};
-
-export default ConversationBox;
+}

@@ -1,21 +1,41 @@
 "use client";
 
-import clsx from "clsx";
 import useConversation from "@/app/hooks/useConversation";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { MdOutlineGroupAdd } from "react-icons/md";
+import { useEffect, useState } from "react";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "./GroupChatModal";
-import { useConversations } from "@/app/context/ConversationsContext";
+import { useSubscription } from "@apollo/client";
+import { CONVERSATIONS_SUBSCRIPTION } from "@/db/queries/conversationSubscriptions";
+import clientAppSync from "@/app/libs/apolloClientAppSync";
+import { useAuthContext } from "@/app/context/AuthContext";
+import { HiMiniPencilSquare } from "react-icons/hi2";
 
-const ConversationList = ({ initialItems, allUsers }) => {
-  // const [items, setItems] = useState(initialItems);
-  const { conversations, loading, error } = useConversations();
+export default function ConversationList({ allUsers }) {
+  const { currentUser } = useAuthContext();
   const [modalOpen, setModalOpen] = useState(false);
-  const router = useRouter();
+  const { conversations, conversationId, isOpen, setConversations } =
+    useConversation();
 
-  const { conversationId, isOpen } = useConversation();
+  const { data, loading, error } = useSubscription(CONVERSATIONS_SUBSCRIPTION, {
+    client: clientAppSync,
+    variables: { userId: currentUser.id },
+  });
+
+  useEffect(() => {
+    if (data?.onConversationUpdate) {
+      const newConvo = data.onConversationUpdate;
+
+      /**
+       * Filter out convo & update the convos array with the new convo data from the subscription
+       * & add it back to the top -- or add the new convo to the top of the convos array
+       * */
+
+      setConversations((prevItems) => [
+        { ...newConvo },
+        ...prevItems.filter((item) => item.id !== newConvo.id),
+      ]);
+    }
+  }, [data]);
 
   return (
     <>
@@ -24,52 +44,33 @@ const ConversationList = ({ initialItems, allUsers }) => {
         onClose={() => setModalOpen(false)}
         users={allUsers}
       />
-      <aside
-        className={clsx(
-          `
-        fixed
-          inset-y-0
-          pb-20
-          lg:pb-0
-          lg:left-20
-          lg:w-80
-          lg:block
-          overflow-y-auto
-          border-r
-          border-gray-200
-      `,
-          isOpen ? "hidden" : "block w-full left-0"
-        )}
-      >
-        <div className="px-5">
-          <div className="flex justify-between mb-4 pt-4">
-            <div className="text-2xl font-bold text-neutral-800">Messages</div>
-            <div
-              onClick={() => setModalOpen(true)}
-              className="
+      <div className="flex justify-between mb-4 px-3">
+        <div className="text-2xl font-bold text-neutral-800">Chats</div>
+        <div
+          data-text="Compose"
+          onClick={() => setModalOpen(true)}
+          className="
+              tooltip
               rounded-full
               p-2
             bg-gray-100
-            text-gray-600
               cursor-pointer
-              hover:opacity-75
+              hover:bg-gray-200
               transition
             "
-            >
-              <MdOutlineGroupAdd size={20} />
-            </div>
-          </div>
-          {conversations.map((item) => (
-            <ConversationBox
-              key={item.id}
-              data={item}
-              selected={conversationId === item.id}
-            />
-          ))}
+        >
+          <HiMiniPencilSquare size={20} />
         </div>
-      </aside>
+      </div>
+      <div className="flex flex-col gap-0.5">
+        {conversations.map((item) => (
+          <ConversationBox
+            key={item.id}
+            data={item}
+            selected={conversationId === item.id}
+          />
+        ))}
+      </div>
     </>
   );
-};
-
-export default ConversationList;
+}

@@ -1,25 +1,24 @@
 import clsx from "clsx";
 
-const Input = ({ label, id, required, errors, disabled, value }) => {
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium leading-6 text-gray-900"
-      >
-        {label}
-      </label>
-      <div className="mt-2">
-        <input
-          id={id}
-          name={id}
-          type={id}
-          autoComplete={id}
-          disabled={disabled}
-          required={required}
-          defaultValue={value}
-          className={clsx(
-            `
+const Input = ({ label, id, required, errors, disabled, value }) => (
+  <div>
+    <label
+      htmlFor={id}
+      className="block text-sm font-medium leading-6 text-gray-900"
+    >
+      {label}
+    </label>
+    <div className="mt-2">
+      <input
+        id={id}
+        name={id}
+        type={id}
+        autoComplete={id}
+        disabled={disabled}
+        required={required}
+        defaultValue={value}
+        className={clsx(
+          `
             form-input 
             block w-full 
             rounded-md 
@@ -34,13 +33,12 @@ const Input = ({ label, id, required, errors, disabled, value }) => {
             focus:ring-sky-600 
             sm:text-sm 
             sm:leading-6`,
-            errors?.[id] && "focus:ring-rose-500",
-            disabled && "opacity-50 cursor-default"
-          )}
-        />
-      </div>
+          errors?.[id] && "!ring-1 !ring-rose-500",
+          disabled && "opacity-50 cursor-default"
+        )}
+      />
     </div>
-  );
-};
+  </div>
+);
 
 export default Input;

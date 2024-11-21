@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
 
-const useOtherUser = (conversation) => {
+export default function useOtherUser(conversation) {
   const session = useSession();
 
   const otherUser = useMemo(() => {
@@ -14,6 +14,4 @@ const useOtherUser = (conversation) => {
   }, [conversation.users, session?.data?.user?.email]);
 
   return otherUser;
-};
-
-export default useOtherUser;
+}

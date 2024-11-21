@@ -9,7 +9,7 @@ import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import Avatar from "@/app/components/Avatar";
 import LoadingModal from "@/app/components/LoadingModal";
 
-const UserBox = ({ data }) => {
+export default function UserBox({ data }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,6 +67,4 @@ const UserBox = ({ data }) => {
       </div>
     </>
   );
-};
-
-export default UserBox;
+}

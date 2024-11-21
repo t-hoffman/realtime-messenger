@@ -9,7 +9,7 @@ import {
 import { Fragment } from "react";
 import { IoClose } from "react-icons/io5";
 
-const Modal = ({ isOpen, onClose, children }) => {
+export default function Modal({ isOpen, onClose, children }) {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -115,6 +115,4 @@ const Modal = ({ isOpen, onClose, children }) => {
       </Dialog>
     </Transition>
   );
-};
-
-export default Modal;
+}

@@ -11,13 +11,17 @@ import { FiAlertTriangle } from "react-icons/fi";
 import { DialogTitle } from "@headlessui/react";
 import Button from "@/app/components/Button";
 import clientLocal from "@/app/libs/apolloClientLocal";
-import { useConversations } from "@/app/context/ConversationsContext";
 
-const ConfirmModal = ({ isOpen, onClose }) => {
+/**
+ *
+ * need to figure out how to send deleted convo thru subscription
+ * so it deletes for all users and doesnt cause any issues
+ */
+
+export default function ConfirmModal({ isOpen, onClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { conversationId } = useConversation();
-  const { refetchConvos } = useConversations();
 
   const [deleteConvo] = useMutation(DELETE_CONVERSATION_MUTATION, {
     client: clientLocal,
@@ -34,7 +38,7 @@ const ConfirmModal = ({ isOpen, onClose }) => {
       console.log(deleteConversation);
 
       if (deleteConversation) {
-        refetchConvos();
+        // refetchConvos();
         router.push("/conversations");
         router.refresh();
       }
@@ -92,6 +96,4 @@ const ConfirmModal = ({ isOpen, onClose }) => {
       </div>
     </Modal>
   );
-};
-
-export default ConfirmModal;
+}

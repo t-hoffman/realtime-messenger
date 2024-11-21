@@ -10,14 +10,13 @@ const Button = ({
   secondary,
   danger,
   disabled,
-}) => {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      className={clsx(
-        `
+}) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    type={type}
+    className={clsx(
+      `
         flex
         justify-center
         rounded-md
@@ -29,18 +28,17 @@ const Button = ({
         focus-visible:outline-2
         focus-visible:outline-offset-2
         `,
-        disabled && "opacity-50 cursor-default",
-        fullWidth && "w-full",
-        secondary ? "text-gray-900" : "text-white",
-        danger &&
-          "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
-        !secondary &&
-          !danger &&
-          "bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-600"
-      )}
-    >
-      {children}
-    </button>
-  );
-};
+      disabled && "opacity-50 cursor-default",
+      fullWidth && "w-full",
+      secondary ? "text-gray-900" : "text-white",
+      danger && "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
+      !secondary &&
+        !danger &&
+        "bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-600"
+    )}
+  >
+    {children}
+  </button>
+);
+
 export default Button;

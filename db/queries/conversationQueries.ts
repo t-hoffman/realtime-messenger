@@ -45,6 +45,7 @@ export const CONVERSATIONS_BY_USER_QUERY = gql`
         name
         email
         image
+        createdAt
       }
       messages {
         id
@@ -56,6 +57,7 @@ export const CONVERSATIONS_BY_USER_QUERY = gql`
           name
           email
           image
+          createdAt
         }
       }
     }

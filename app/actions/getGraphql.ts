@@ -1,14 +1,14 @@
 import axios from "axios";
 import { headers } from "next/headers";
 
-export default async function useGraphql({
-  url = "http://localhost:3000/api/graphql",
+export default async function getGraphql({
+  url = process.env.NEXT_PUBLIC_LOCAL_GRAPHQL_ENDPOINT,
   queryName,
   query,
   variables,
   defaultReturn = [],
 }: any) {
-  let error, successfulData;
+  let error, data;
   try {
     const body = query.loc?.source.body;
     const response = await axios.post(
@@ -28,18 +28,16 @@ export default async function useGraphql({
 
     if (!response || !response.data || response?.data?.errors) {
       error = `Query: \`${queryName}\` failed.  Error: ${response.data.errors[0].message}`;
-      console.error(error);
+      console.log(error);
     } else {
-      successfulData = response?.data?.data?.[queryName];
+      data = response?.data?.data?.[queryName];
     }
   } catch (err) {
-    // console.log(err);
     error = err || "Internal server error";
-    successfulData = defaultReturn;
+    data = defaultReturn;
 
     console.error(error);
-    // return defaultReturn;
   }
 
-  return { data: successfulData, error };
+  return { data, error };
 }

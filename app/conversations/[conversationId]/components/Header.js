@@ -4,12 +4,15 @@ import Avatar from "@/app/components/Avatar";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
+import { FaArrowLeft } from "react-icons/fa";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 import ProfileDrawer from "./ProfileDrawer";
 import AvatarGroup from "@/app/components/AvatarGroup";
+import useConversation from "@/app/hooks/useConversation";
 
-const Header = ({ conversation }) => {
+export default function Header() {
+  const { conversation } = useConversation();
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -34,28 +37,27 @@ const Header = ({ conversation }) => {
           w-full 
           flex 
           border-b-[1px] 
-          sm:px-4 
-          py-3 
-          px-4 
-          lg:px-6 
+          p-2
+          pe-4
           justify-between 
           items-center 
           shadow-sm
+          rounded-t-lg
         "
       >
         <div className="flex gap-3 items-center">
           <Link
             className="
-              lg:hidden
+              md:hidden
               block
-              text-sky-500
+              text-[#9718FF]
               hover:text-sky-600
               transition
               cursor-pointer
             "
             href="/conversations"
           >
-            <HiChevronLeft size={32} />
+            <FaArrowLeft size={18} />
           </Link>
           {conversation.isGroup ? (
             <AvatarGroup users={conversation.users} />
@@ -76,14 +78,12 @@ const Header = ({ conversation }) => {
             </div>
           </div>
         </div>
-        <HiEllipsisHorizontal
-          size={32}
+        <HiOutlineDotsHorizontal
+          size={22}
           onClick={() => setDrawerOpen(true)}
-          className="text-sky-500 cursor-pointer hover:text-sky-600 transition"
+          className="text-[#9718FF] cursor-pointer hover:opacity-60 transition"
         />
       </div>
     </>
   );
-};
-
-export default Header;
+}

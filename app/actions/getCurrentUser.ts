@@ -3,10 +3,12 @@ import getSession from "./getSession";
 import { eq } from "drizzle-orm";
 
 const getCurrentUser = async () => {
+  const defaultReturn = { id: null, name: null, email: null };
+
   try {
     const session = await getSession();
 
-    if (!session?.user?.email) return null;
+    if (!session?.user?.email) return defaultReturn;
 
     const [selectedUser] = await db
       .select()
@@ -14,13 +16,13 @@ const getCurrentUser = async () => {
       .where(eq(UserTable.email, session.user.email))
       .limit(1);
 
-    if (!selectedUser) return null;
+    if (!selectedUser) return defaultReturn;
 
     const { password, ...currentUser } = selectedUser;
 
     return currentUser;
   } catch (err) {
-    return null;
+    return defaultReturn;
   }
 };
 

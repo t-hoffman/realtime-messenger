@@ -43,7 +43,13 @@ export async function updateUserById(input: UpdateUserInput, context: any) {
     .set({ name: input.name, image: input.image, updatedAt: new Date() })
     .where(eq(UserTable.id, context.currentUser.id));
 
-  return !!updatedUser;
+  return {
+    id: context.currentUser.id,
+    name: input.name,
+    email: context.currentUser.email,
+    image: input.image,
+    createdAt: context.currentUser.createdAt,
+  };
 }
 
 /**

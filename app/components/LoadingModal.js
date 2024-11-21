@@ -7,9 +7,9 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { ClipLoader } from "react-spinners";
+import Loader from "./Loader";
 
-const LoadingModal = () => {
+export default function LoadingModal() {
   return (
     <Transition show as="div">
       <Dialog as="div" className="relative z-50" onClose={() => {}}>
@@ -27,13 +27,11 @@ const LoadingModal = () => {
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <DialogPanel>
-              <ClipLoader size={40} color="#0284c7" />
+              <Loader />
             </DialogPanel>
           </div>
         </div>
       </Dialog>
     </Transition>
   );
-};
-
-export default LoadingModal;
+}
