@@ -35,7 +35,11 @@ export default function ProfileDrawer({ data, isOpen, onClose }) {
 
   return (
     <>
-      <ConfirmModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <ConfirmModal
+        users={data.users}
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
       <Transition show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={onClose}>
           <TransitionChild
@@ -162,8 +166,9 @@ export default function ProfileDrawer({ data, isOpen, onClose }) {
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
                                     {data.users
-                                      .map((user) => user.email)
+                                      .map((user) => user.email || user.name)
                                       .join(", ")}
+                                    {/*was just user.email*/}
                                   </dd>
                                 </div>
                               )}
@@ -181,7 +186,8 @@ export default function ProfileDrawer({ data, isOpen, onClose }) {
                                     Email
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                    {otherUser.email}
+                                    {otherUser.email || otherUser.name}
+                                    {/* was user otherUser.email*/}
                                   </dd>
                                 </div>
                               )}

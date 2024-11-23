@@ -50,16 +50,17 @@ export default function Sidebar({ children }) {
         className={clsx(
           `
           w-full
+          h-full
           me-4
           min-[725px]:me-0
           min-[725px]:w-[30%] 
           min-[725px]:min-w-[300px] 
           min-[725px]:max-w-[480px] 
           bg-white
-          rounded-lg
-          py-3 px-1
+          rounded-xl
+          pt-3 px-1
           shadow
-          overflow-scroll
+          overflow-hidden
         `,
           isOpen && "hidden min-[725px]:block"
         )}

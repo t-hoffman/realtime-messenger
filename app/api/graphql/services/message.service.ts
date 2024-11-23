@@ -15,9 +15,12 @@ export async function getMessagesInConversation(conversationId: string) {
 export async function addMessage(message: MessageInput, context: any) {
   const { currentUser } = context;
 
-  if (!currentUser?.id || !currentUser?.email) {
+  if (!currentUser?.id) {
     throw new Error("User not authorized.");
   }
+  // if (!currentUser?.id || !currentUser?.email) {
+  //   throw new Error("User not authorized.");
+  // }
 
   const [newMessage] = await db
     .insert(MessageTable)

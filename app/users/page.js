@@ -1,5 +1,5 @@
-import EmptyState from "@/app/components/EmptyState";
+import EmptyPage from "@/app/components/EmptyPage";
 
 export default function Users() {
-  return <EmptyState />;
+  return <EmptyPage />;
 }

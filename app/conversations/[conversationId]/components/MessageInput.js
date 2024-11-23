@@ -1,17 +1,28 @@
 "use client";
 
 import clsx from "clsx";
+import { useEffect, useRef } from "react";
 
-const MessageInput = ({ id, errors, required, placeholder }) => (
-  <div className="relative w-full">
-    <input
-      id={id}
-      name={id}
-      autoComplete="off"
-      required={required || false}
-      placeholder={placeholder}
-      className={clsx(
-        `
+const MessageInput = ({ id, disabled, errors, required, placeholder }) => {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  });
+
+  return (
+    <div className="relative w-full">
+      <input
+        ref={inputRef}
+        id={id}
+        name={id}
+        autoComplete="off"
+        autoFocus
+        required={required || false}
+        placeholder={placeholder}
+        disabled={!!disabled}
+        className={clsx(
+          `
           text-black
           font-light
           py-2
@@ -21,10 +32,12 @@ const MessageInput = ({ id, errors, required, placeholder }) => (
           rounded-full
           focus:outline-none
         `,
-        errors?.[id] && "ring-1 ring-rose-300"
-      )}
-    />
-  </div>
-);
+          errors?.[id] && "ring-[1.5px] ring-rose-300",
+          disabled && "animate-pulse"
+        )}
+      />
+    </div>
+  );
+};
 
 export default MessageInput;

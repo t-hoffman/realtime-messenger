@@ -1,5 +1,4 @@
 import { useParams } from "next/navigation";
-import { useMemo } from "react";
 import { useConversationsContext } from "../context/ConversationsContext";
 
 export default function useConversation() {
@@ -13,34 +12,19 @@ export default function useConversation() {
     refetchConversations = context.refetchConversations;
   }
 
-  const conversationId = useMemo(
-    () => (!params?.conversationId ? "" : params.conversationId),
-    [params?.conversationId]
-  );
+  const conversationId = !params?.conversationId ? "" : params.conversationId;
 
-  const conversation = useMemo(
-    () => conversations?.find((convo) => convo.id === conversationId) || null,
-    [conversations, conversationId]
-  );
+  const conversation =
+    conversations?.find((convo) => convo.id === conversationId) || null;
 
-  const isOpen = useMemo(() => !!conversationId, [conversationId]);
+  const isOpen = !!conversationId;
 
-  return useMemo(
-    () => ({
-      isOpen,
-      conversationId,
-      conversation,
-      conversations,
-      refetchConversations,
-      setConversations,
-    }),
-    [
-      isOpen,
-      conversationId,
-      conversation,
-      conversations,
-      refetchConversations,
-      setConversations,
-    ]
-  );
+  return {
+    isOpen,
+    conversationId,
+    conversation,
+    conversations,
+    refetchConversations,
+    setConversations,
+  };
 }

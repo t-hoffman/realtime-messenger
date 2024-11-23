@@ -9,8 +9,8 @@ export class User {
   @Field(() => String)
   name!: string;
 
-  @Field(() => String)
-  email!: string;
+  @Field(() => String, { nullable: true })
+  email?: string | null;
 
   @Field(() => String, { nullable: true })
   image?: string | null;
@@ -39,8 +39,8 @@ export class NewUserInput {
   @Field(() => String)
   name!: string;
 
-  @Field(() => String)
-  email!: string;
+  @Field(() => String, { nullable: true })
+  email?: string | null;
 
   @Field(() => String, { nullable: true })
   image?: string;

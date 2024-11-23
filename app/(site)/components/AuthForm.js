@@ -10,7 +10,7 @@ import clientLocal from "@/app/libs/apolloClientLocal";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
 import AuthSocialButton from "./AuthSocialButton";
-import { BsGithub, BsGoogle } from "react-icons/bs";
+import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import toast from "react-hot-toast";
 
 const LOGIN = "LOGIN";
@@ -29,7 +29,7 @@ export default function AuthForm() {
   const [createUser] = useMutation(CREATE_NEW_USER_MUTATION, {
     client: clientLocal,
   });
-
+  console.log("sess", session);
   useEffect(() => {
     if (session?.status === "authenticated") {
       router.replace("/users");
@@ -138,8 +138,8 @@ export default function AuthForm() {
         </div>
         <div className="mt-6 flex gap-2">
           <AuthSocialButton
-            icon={BsGithub}
-            onClick={() => socialAction("github")}
+            icon={BsFacebook}
+            onClick={() => socialAction("facebook")}
           />
           <AuthSocialButton
             icon={BsGoogle}

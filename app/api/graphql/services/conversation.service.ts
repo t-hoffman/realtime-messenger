@@ -74,9 +74,12 @@ export async function createNewConversation(
 ) {
   const { currentUser } = context;
 
-  if (!currentUser?.id || !currentUser?.email) {
+  if (!currentUser?.id) {
     throw new Error("Unauthorized User");
   }
+  // if (!currentUser?.id || !currentUser?.email) {
+  //   throw new Error("Unauthorized User");
+  // }
 
   let conversationData = {};
   const { isGroup, members, name } = input;
@@ -120,9 +123,12 @@ export async function createNewConversation(
 }
 
 export async function getConversationsByUser(userId: string, context: any) {
-  if (!context.currentUser?.id || !context.currentUser?.email) {
+  if (!context.currentUser?.id) {
     throw new Error("Unauthorized User");
   }
+  // if (!context.currentUser?.id || !context.currentUser?.email) {
+  //   throw new Error("Unauthorized User");
+  // }
 
   const conversations = await db
     .select({
@@ -161,9 +167,12 @@ export async function getUsersInConversation(conversation: Conversation) {
 }
 
 export async function getConversationById(id: string, context: any) {
-  if (!context.currentUser?.id || !context.currentUser?.email) {
+  if (!context.currentUser?.id) {
     throw new Error("Unauthorized User");
   }
+  // if (!context.currentUser?.id || !context.currentUser?.email) {
+  //   throw new Error("Unauthorized User");
+  // }
 
   const { currentUser } = context;
 
@@ -200,9 +209,12 @@ export async function deleteConversationById(
 ) {
   const { currentUser } = context;
 
-  if (!currentUser?.id || !currentUser?.email) {
+  if (!currentUser?.id) {
     throw new Error("Unauthorized User");
   }
+  // if (!currentUser?.id || !currentUser?.email) {
+  //   throw new Error("Unauthorized User");
+  // }
 
   const userInConvo = await db
     .select()

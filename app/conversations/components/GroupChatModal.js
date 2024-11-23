@@ -9,7 +9,7 @@ import { clientLocal } from "@/app/libs/apolloClients";
 import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
-import { useActionState, useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import toast from "react-hot-toast";
 
 const GroupChatModal = ({ isOpen, onClose, users }) => {
@@ -25,6 +25,8 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
 
   const [state, submitAction, isPending] = useActionState(
     async (prevState, formData) => {
+      if (formData === null) return initialValues;
+
       const name = formData.get("name");
       const members = selectedMembers.map((member) => member.value); // make sure is array
 
@@ -38,6 +40,7 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
 
           console.log(addConversation);
 
+          setSelectedMembers([]);
           router.refresh();
           onClose();
         })
@@ -48,17 +51,21 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
     initialValues
   );
 
+  const handleClose = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+
+    startTransition(() => {
+      submitAction(null);
+      setSelectedMembers([]);
+      onClose();
+    });
+  };
+
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={() => {
-        setSelectedMembers([]);
-        onClose();
-      }}
-    >
-      <form action={submitAction}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
+      <form action={submitAction} noValidate autoComplete="off">
         <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
+          <div className="border-b border-gray-900/10 pb-12 mt-3 sm:mt-0">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Create a group chat
             </h2>
@@ -73,7 +80,7 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
                 disabled={isPending}
               />
               <Select
-                label="members"
+                label="Members"
                 options={users.map((user) => ({
                   value: user.id,
                   label: user.name,
@@ -88,10 +95,7 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <Button
             type="button"
-            onClick={() => {
-              setSelectedMembers([]);
-              onClose();
-            }}
+            onClick={handleClose}
             disabled={isPending}
             secondary
           >

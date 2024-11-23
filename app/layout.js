@@ -1,19 +1,20 @@
-import "./globals.css";
+import "./styles/globals.css";
 import localFont from "next/font/local";
 import AuthProvider from "./context/AuthContext";
 import ApolloWrapper from "./context/ApolloWrapper";
 import { Toaster } from "react-hot-toast";
 import getCurrentUser from "./actions/getCurrentUser";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
 export const metadata = {
   title: "Messenger",
   description: "Realtime messenger app.",
+};
+
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F1F2F5" },
+    { media: "(prefers-color-scheme: dark)", color: "#F1F2F5" },
+  ],
 };
 
 export default async function RootLayout({ children }) {
@@ -21,11 +22,8 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body
-        suppressHydrationWarning={true}
-        className={`${geistSans.variable} antialiased`}
-      >
-        <AuthProvider currentUser={currentUser}>
+      <body suppressHydrationWarning={true} className={`antialiased`}>
+        <AuthProvider initialUser={currentUser}>
           <Toaster />
           <ApolloWrapper>{children}</ApolloWrapper>
         </AuthProvider>

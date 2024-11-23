@@ -1,6 +1,6 @@
 "use client";
 
-import EmptyState from "@/app/components/EmptyState";
+import EmptyPage from "@/app/components/EmptyPage";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Form from "./components/Form";
@@ -16,6 +16,6 @@ export default function ConversationId({ params }) {
       <Form />
     </div>
   ) : (
-    <EmptyState />
+    <EmptyPage />
   );
 }

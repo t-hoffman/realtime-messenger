@@ -56,7 +56,7 @@ export default function UserBox({ data }) {
         cursor-pointer
       "
       >
-        <Avatar user={data} />
+        <Avatar user={data} overrideSmall />
         <div className="min-w-0 flex-1">
           <div className="focus:outline-none">
             <div className="flex justify-between items-center mb-1">

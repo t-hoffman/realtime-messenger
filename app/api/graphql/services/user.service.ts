@@ -30,13 +30,16 @@ export async function getAllUsers() {
 }
 
 export async function updateUserById(input: UpdateUserInput, context: any) {
-  if (
-    !context.currentUser?.id ||
-    !context.currentUser?.email ||
-    context.currentUser?.id !== input.userId
-  ) {
+  if (!context.currentUser?.id || context.currentUser?.id !== input.userId) {
     throw new Error("Unauthorized User");
   }
+  // if (
+  //   !context.currentUser?.id ||
+  //   !context.currentUser?.email ||
+  //   context.currentUser?.id !== input.userId
+  // ) {
+  //   throw new Error("Unauthorized User");
+  // }
 
   const updatedUser = await db
     .update(UserTable)

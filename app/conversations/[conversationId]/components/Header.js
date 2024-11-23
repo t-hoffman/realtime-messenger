@@ -62,7 +62,7 @@ export default function Header() {
           {conversation.isGroup ? (
             <AvatarGroup users={conversation.users} />
           ) : (
-            <Avatar user={otherUser} />
+            <Avatar user={otherUser} header />
           )}
 
           <div className="flex flex-col">

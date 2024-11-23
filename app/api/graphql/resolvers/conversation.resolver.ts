@@ -59,7 +59,6 @@ export class ConversationResolver {
     @Arg("conversationId", () => ID) conversationId: string,
     @Ctx() context: any
   ): Promise<Boolean> {
-    console.log("hello");
     return await deleteConversationById(conversationId, context);
   }
 

@@ -1,16 +1,22 @@
 "use client";
 
-const Avatar = ({ user, imageLink = null }) => (
+import clsx from "clsx";
+
+const Avatar = ({ user, imageLink = null, overrideSmall, header }) => (
   <div
-    className="
+    className={clsx(
+      `
         relative
         inline-block
         rounded-full
-        h-9 w-9
-        md:h-11 md:w-11
         bg-cover 
         bg-center
-      "
+        shadow-[inset_0_0_0_1px_rgba(0,0,0,.1)]
+      `,
+      overrideSmall && "h-[48px] w-[48px]",
+      !overrideSmall && !header && "h-9 w-9 md:h-[48px] md:w-[48px]",
+      header && "w-9 h-9"
+    )}
     style={{
       backgroundImage: `url('${
         imageLink || user?.image || "/images/placeholder.png"

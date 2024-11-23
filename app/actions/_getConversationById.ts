@@ -1,3 +1,5 @@
+"use server";
+
 import { CONVERSATION_BY_ID_QUERY } from "@/db/queries/conversationQueries";
 import getGraphql from "./getGraphql";
 import getCurrentUser from "./getCurrentUser";
@@ -5,7 +7,8 @@ import getCurrentUser from "./getCurrentUser";
 const getConversationById = async (conversationId: number) => {
   const currentUser = await getCurrentUser();
 
-  if (!currentUser?.email) return null;
+  if (!currentUser?.id) return null;
+  // if (!currentUser?.email) return null;
 
   const { data, error } = await getGraphql({
     queryName: "getConversation",

@@ -4,7 +4,6 @@ import useConversation from "@/app/hooks/useConversation";
 import MessageBox from "./MessageBox";
 
 export default function Body() {
-  console.log("<Body/>");
   const {
     conversation: { messages },
   } = useConversation();

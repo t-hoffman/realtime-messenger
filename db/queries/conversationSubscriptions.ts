@@ -8,6 +8,7 @@ export const CONVERSATIONS_SUBSCRIPTION = gql`
       createdAt
       lastMessageAt
       isGroup
+      tag
       messages {
         id
         body
@@ -62,6 +63,7 @@ export const UPDATE_CONVERSATION_MUTATION = gql`
         image
         createdAt
       }
+      tag
       userId
     }
   }

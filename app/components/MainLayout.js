@@ -15,7 +15,7 @@ export default function MainLayout({ sidebar, children }) {
           `
             flex-1
             bg-white
-            rounded-lg
+            rounded-xl
             shadow
             ms-0
             me-4

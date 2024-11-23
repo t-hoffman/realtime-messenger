@@ -1,3 +1,4 @@
+import "../styles/Conversations.css";
 import getConversations from "../actions/getConversations";
 import getUsers from "../actions/getUsers";
 import MainLayout from "@/app/components/MainLayout";

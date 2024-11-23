@@ -1,3 +1,5 @@
+"use client";
+
 import LoadingModal from "@/app/components/LoadingModal";
 
 const Loading = () => <LoadingModal />;

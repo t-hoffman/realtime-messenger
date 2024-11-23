@@ -4,12 +4,24 @@ import Avatar from "@/app/components/Avatar";
 import AvatarGroup from "@/app/components/AvatarGroup";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import clsx from "clsx";
-import { format } from "date-fns";
+import { format, formatDistanceToNow, isToday } from "date-fns";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
-export default function ConversationBox({ data, selected }) {
+const formatDate = (date) => {
+  const formattedDate = formatDistanceToNow(date, { addSuffix: true })
+    .replace(/^about /, "")
+    .replace(/^less than/, "about");
+  return formattedDate;
+};
+
+export default function ConversationBox({
+  data,
+  conversationId,
+  passRef,
+  selected,
+}) {
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
@@ -36,6 +48,10 @@ export default function ConversationBox({ data, selected }) {
     return "Started a conversation";
   }, [lastMessage]);
 
+  const openRefProp = data.id === conversationId ? { ref: passRef } : {};
+
+  const notToday = !isToday(new Date(data.createdAt));
+
   return (
     <div
       onClick={handleClick}
@@ -58,9 +74,9 @@ export default function ConversationBox({ data, selected }) {
       {data.isGroup ? (
         <AvatarGroup users={data.users} />
       ) : (
-        <Avatar user={otherUser} />
+        <Avatar user={otherUser} overrideSmall />
       )}
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1" {...openRefProp}>
         <div className="focus:outline-none">
           <div
             className="
@@ -74,9 +90,17 @@ export default function ConversationBox({ data, selected }) {
               {data.name || otherUser.name}
             </p>
             {lastMessage?.createdAt && (
-              <p className="text-xs text-gray-400 font-light">
-                {format(new Date(lastMessage.createdAt), "p")}
-              </p>
+              <>
+                <p className="text-xs text-gray-400 font-light hidden min-[400px]:inline-block">
+                  {formatDate(new Date(lastMessage.createdAt))}
+                </p>
+                <p className="text-xs text-gray-400 font-light inline-block min-[400px]:hidden">
+                  {format(
+                    new Date(lastMessage.createdAt),
+                    notToday ? "E p" : "p"
+                  )}
+                </p>
+              </>
             )}
           </div>
           <p
