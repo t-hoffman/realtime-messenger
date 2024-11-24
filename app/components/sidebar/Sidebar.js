@@ -65,7 +65,7 @@ export default function Sidebar({ children }) {
           isOpen && "hidden min-[725px]:block"
         )}
       >
-        {children}
+        <div className="flex flex-col flex-1 h-full">{children}</div>
       </main>
     </>
   );

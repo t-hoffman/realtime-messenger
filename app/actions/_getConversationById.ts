@@ -4,7 +4,7 @@ import { CONVERSATION_BY_ID_QUERY } from "@/db/queries/conversationQueries";
 import getGraphql from "./getGraphql";
 import getCurrentUser from "./getCurrentUser";
 
-const getConversationById = async (conversationId: number) => {
+const getConversationById = async (conversationId: string) => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.id) return null;

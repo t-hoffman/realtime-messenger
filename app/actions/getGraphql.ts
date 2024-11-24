@@ -12,7 +12,8 @@ export default async function getGraphql({
 }: any) {
   let error, data;
   try {
-    const body = query.loc?.source.body;
+    const body = query.loc?.source.body || query;
+
     const response = await axios.post(
       url,
       {
@@ -29,7 +30,9 @@ export default async function getGraphql({
     );
 
     if (!response || !response.data || response?.data?.errors) {
-      error = `Query: \`${queryName}\` failed.  Error: ${response.data.errors[0].message}`;
+      error = `Query: \`${queryName}\` failed.  Error: ${
+        response.data.errors[0].message || "Unknown error"
+      }`;
       console.log(error);
     } else {
       data = response?.data?.data?.[queryName];

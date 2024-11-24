@@ -1,5 +1,6 @@
 import { useParams } from "next/navigation";
 import { useConversationsContext } from "../context/ConversationsContext";
+import { useMemo } from "react";
 
 export default function useConversation() {
   const params = useParams();
@@ -14,8 +15,10 @@ export default function useConversation() {
 
   const conversationId = !params?.conversationId ? "" : params.conversationId;
 
-  const conversation =
-    conversations?.find((convo) => convo.id === conversationId) || null;
+  const conversation = useMemo(
+    () => conversations?.find((convo) => convo.id === conversationId) || null,
+    [conversationId, conversations]
+  );
 
   const isOpen = !!conversationId;
 
