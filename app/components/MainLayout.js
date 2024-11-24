@@ -8,7 +8,7 @@ export default function MainLayout({ sidebar, children }) {
   const { isOpen } = useConversation();
 
   return (
-    <div className="flex py-5 w-full h-full bg-gray-100">
+    <div className="flex py-5 w-screen h-screen max-w-[100dvw] max-h-[100dvh] bg-gray-100">
       <Sidebar>{sidebar}</Sidebar>
       <div
         className={clsx(

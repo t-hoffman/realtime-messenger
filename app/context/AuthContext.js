@@ -12,7 +12,7 @@ export function useAuthContext() {
   return useContext(AuthContext);
 }
 
-function AuthProvider({ children, initialUser }) {
+function AuthContextProvider({ children, initialUser }) {
   const [currentUser, setCurrentUser] = useState(initialUser);
   const { data: session } = useSession();
   const router = useRouter();
@@ -38,10 +38,14 @@ function AuthProvider({ children, initialUser }) {
   );
 }
 
-export default function ({ children, initialUser }) {
+function AuthProvider({ children, initialUser }) {
   return (
     <SessionProvider>
-      <AuthProvider initialUser={initialUser}>{children}</AuthProvider>
+      <AuthContextProvider initialUser={initialUser}>
+        {children}
+      </AuthContextProvider>
     </SessionProvider>
   );
 }
+
+export default AuthProvider;

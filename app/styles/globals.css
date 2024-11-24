@@ -8,3 +8,7 @@ body,
   height: 100dvh;
   background-color: #f1f2f5;
 }
+
+* {
+  box-sizing: border-box;
+}

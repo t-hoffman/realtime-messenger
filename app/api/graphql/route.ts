@@ -25,4 +25,10 @@ const handler = startServerAndCreateNextHandler(server, {
   context: async (req, res) => ({ currentUser: await getCurrentUser() }),
 });
 
-export { handler as GET, handler as POST };
+export async function GET(req: Request, context: any) {
+  return handler(req, context);
+}
+
+export async function POST(req: Request, context: any) {
+  return handler(req, context);
+}

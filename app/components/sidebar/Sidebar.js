@@ -22,7 +22,7 @@ export default function Sidebar({ children }) {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
       />
-      <nav className="relative px-2 flex flex-col gap-0.5 md:px-4">
+      <nav className="px-2 flex flex-col gap-0.5 md:px-4">
         {routes.map((item) => (
           <NavItem
             key={item.label}
@@ -33,7 +33,7 @@ export default function Sidebar({ children }) {
             onClick={item.onClick}
           />
         ))}
-        <nav className="absolute bottom-0 mb-2">
+        <nav className="absolute bottom-0 mb-5">
           <div
             onClick={() => setModalOpen(true)}
             className="cursor-pointer hover:opacity-75 transition"

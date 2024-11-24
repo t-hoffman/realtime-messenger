@@ -2,8 +2,10 @@ import { Conversation } from "./conversation";
 import { Message } from "./message";
 import { User } from "./user";
 
-export default {
+const graphqlTypes = {
   User,
   Conversation,
   Message,
 };
+
+export default graphqlTypes;
