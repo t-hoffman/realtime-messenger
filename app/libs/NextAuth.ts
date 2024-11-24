@@ -78,4 +78,3 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
-console.log("ughhhh", process.env.NEXTAUTH_SECRET);

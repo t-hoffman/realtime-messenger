@@ -20,7 +20,6 @@ function AuthContextProvider({ children, initialUser }) {
   useEffect(() => {
     if (session?.user && !currentUser) {
       getCurrentUser(session).then((user) => {
-        console.log("authcontext", user, session);
         if (user) {
           setCurrentUser(user);
         } else {

@@ -2,7 +2,7 @@ import { UUIDResolver } from "graphql-scalars";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { User } from "./user";
 
-@ObjectType()
+@ObjectType("Message")
 export class Message {
   @Field(() => ID)
   id!: number;
@@ -26,7 +26,7 @@ export class Message {
   sender?: User;
 }
 
-@InputType()
+@InputType("MessageInput")
 export class MessageInput {
   @Field(() => String, { nullable: true })
   body?: string | null;

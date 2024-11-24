@@ -3,7 +3,7 @@ import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { User } from "./user";
 import { Message } from "./message";
 
-@ObjectType()
+@ObjectType("Conversation")
 export class Conversation {
   @Field(() => ID)
   id!: string;
@@ -27,7 +27,7 @@ export class Conversation {
   messages?: Message[];
 }
 
-@InputType()
+@InputType("ConversationInput")
 export class ConversationInput {
   @Field(() => String, { nullable: true })
   name?: string;
@@ -39,7 +39,7 @@ export class ConversationInput {
   members!: [string];
 }
 
-@ObjectType()
+@ObjectType("UserConversations")
 export class UserConversations {
   @Field(() => UUIDResolver)
   userId!: string;

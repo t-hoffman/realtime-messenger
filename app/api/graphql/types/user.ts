@@ -1,7 +1,7 @@
 import { UUIDResolver } from "graphql-scalars";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 
-@ObjectType()
+@ObjectType("User")
 export class User {
   @Field(() => UUIDResolver)
   id!: string;
@@ -22,7 +22,7 @@ export class User {
   updatedAt?: Date;
 }
 
-@InputType()
+@InputType("UpdateUserInput")
 export class UpdateUserInput {
   @Field(() => UUIDResolver)
   userId!: string;
@@ -34,7 +34,7 @@ export class UpdateUserInput {
   image?: string;
 }
 
-@InputType()
+@InputType("NewUserInput")
 export class NewUserInput {
   @Field(() => String)
   name!: string;
