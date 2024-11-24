@@ -29,7 +29,7 @@ export default function AuthForm() {
   const [createUser] = useMutation(CREATE_NEW_USER_MUTATION, {
     client: clientLocal,
   });
-  console.log("sess", session);
+
   useEffect(() => {
     if (session?.status === "authenticated") {
       router.replace("/users");

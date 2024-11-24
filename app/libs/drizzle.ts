@@ -7,8 +7,8 @@ declare global {
   var _db: ReturnType<typeof drizzle> | undefined;
 }
 
-const dbUrl = process.env.DATABASE_URL
-  ? new URL(process.env.DATABASE_URL)
+const dbUrl = process.env.NEXT_PUBLIC_DATABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_DATABASE_URL)
   : null;
 
 if (!dbUrl) throw new Error("DATABASE_URL is not defined.");

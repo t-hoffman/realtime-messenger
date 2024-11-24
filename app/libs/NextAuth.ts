@@ -13,16 +13,16 @@ export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: process.env.NEXT_PUBLIC_GITHUB_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET as string,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string,
     }),
     FacebookProvider({
-      clientId: process.env.AUTH_FACEBOOK_ID as string,
-      clientSecret: process.env.AUTH_FACEBOOK_SECRET as string,
+      clientId: process.env.NEXT_PUBLIC_AUTH_FACEBOOK_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_AUTH_FACEBOOK_SECRET as string,
     }),
     CredentialsProvider({
       name: "credentials",
@@ -78,3 +78,4 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+console.log("ughhhh", process.env.NEXTAUTH_SECRET);

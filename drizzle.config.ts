@@ -6,6 +6,6 @@ export default defineConfig({
   schema: "./db/schema.ts",
   dialect: "mysql",
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    url: process.env.NEXT_PUBLIC_DATABASE_URL!,
   },
 });
