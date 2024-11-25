@@ -12,9 +12,9 @@ import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useState } from "react";
 import toast from "react-hot-toast";
 
-const GroupChatModal = ({ isOpen, onClose, users }) => {
+const GroupChatModal = ({ isOpen, onClose }) => {
   const [selectedMembers, setSelectedMembers] = useState([]);
-  const { refetchConversations } = useConversation();
+  const { allUsers, refetchConversations } = useConversation();
   const router = useRouter();
   const initialValues = { members: [], errors: {} };
 
@@ -81,7 +81,7 @@ const GroupChatModal = ({ isOpen, onClose, users }) => {
               />
               <Select
                 label="Members"
-                options={users.map((user) => ({
+                options={allUsers.map((user) => ({
                   value: user.id,
                   label: user.name,
                 }))}

@@ -23,7 +23,7 @@ export default function ConversationList({ allUsers }) {
       <GroupChatModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        users={allUsers}
+        // users={allUsers}
       />
       <div className="flex justify-between px-3">
         <div className="text-2xl font-bold text-neutral-800">Chats</div>

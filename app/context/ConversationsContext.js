@@ -7,7 +7,6 @@ import { clientAppSync, clientLocal } from "../libs/apolloClients";
 import { useAuthContext } from "./AuthContext";
 import { CONVERSATIONS_SUBSCRIPTION } from "@/db/queries/conversationSubscriptions";
 import Sound from "../conversations/components/Sound";
-import { usePathname, useRouter } from "next/navigation";
 
 const ConversationsContext = createContext();
 
@@ -16,6 +15,7 @@ export function useConversationsContext() {
 }
 
 export default function ConversationsProvider({
+  allUsers,
   initialConversations,
   children,
 }) {
@@ -37,20 +37,6 @@ export default function ConversationsProvider({
     client: clientAppSync,
     variables: { userId: currentUser.id },
   });
-
-  const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(
-    () => () => {
-      /**
-       * Unable to figure out why force-dynamic not working in my conversations route
-       * The ConversationsContext is receiving stale data from initialConversations
-       */
-      router.refresh();
-    },
-    [pathname]
-  );
 
   useEffect(() => {
     if (data?.onConversationUpdate) {
@@ -79,6 +65,7 @@ export default function ConversationsProvider({
   const soundKey = data?.onConversationUpdate?.messages?.length;
 
   const contextValue = {
+    allUsers,
     conversations,
     setConversations,
     refetchConversations,

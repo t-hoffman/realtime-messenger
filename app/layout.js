@@ -4,6 +4,9 @@ import AuthProvider from "./context/AuthContext";
 import ApolloWrapper from "./context/ApolloWrapper";
 import { Toaster } from "react-hot-toast";
 import getCurrentUser from "./actions/getCurrentUser";
+import ConversationsProvider from "./context/ConversationsContext";
+import getConversations from "./actions/getConversations";
+import getUsers from "./actions/getUsers";
 
 export const metadata = {
   title: "Messenger",
@@ -20,12 +23,20 @@ export const viewport = {
 export default async function RootLayout({ children }) {
   const currentUser = await getCurrentUser();
 
+  const conversations = await getConversations();
+  const allUsers = await getUsers();
+
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={`antialiased`}>
         <AuthProvider initialUser={currentUser}>
-          <Toaster />
-          <ApolloWrapper>{children}</ApolloWrapper>
+          <ConversationsProvider
+            initialConversations={conversations}
+            allUsers={allUsers}
+          >
+            <Toaster />
+            <ApolloWrapper>{children}</ApolloWrapper>
+          </ConversationsProvider>
         </AuthProvider>
       </body>
     </html>

@@ -22,6 +22,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  idleTimeout: 60000,
 });
 
 const db = globalThis._db || drizzle(pool);
@@ -29,6 +30,28 @@ const db = globalThis._db || drizzle(pool);
 if (process.env.NODE_ENV !== "production") {
   globalThis._db = db;
 }
+
+let isShutdownListenerAdded = false;
+
+async function shutdown(signal: string) {
+  if (isShutdownListenerAdded) return;
+  isShutdownListenerAdded = true;
+
+  console.log(`Received ${signal}. Closing resources...`);
+
+  pool.end((err) => {
+    if (err) {
+      console.error("Error closing the database pool:", err);
+      process.exit(1);
+    } else {
+      console.log("Database pool closed.");
+      process.exit(0);
+    }
+  });
+}
+
+process.once("SIGINT", () => shutdown("SIGINT"));
+process.once("SIGTERM", () => shutdown("SIGTERM"));
 
 export default db;
 export {
