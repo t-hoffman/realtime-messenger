@@ -8,6 +8,26 @@ export const ADD_CONVERSATION_MUTATION = gql`
       isGroup
       createdAt
       lastMessageAt
+      users {
+        id
+        name
+        email
+        image
+        createdAt
+      }
+      messages {
+        id
+        body
+        image
+        createdAt
+        sender {
+          id
+          name
+          email
+          image
+          createdAt
+        }
+      }
     }
   }
 `;

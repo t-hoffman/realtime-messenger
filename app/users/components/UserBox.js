@@ -8,8 +8,10 @@ import clientLocal from "@/app/libs/apolloClientLocal";
 import { ADD_CONVERSATION_MUTATION } from "@/db/queries/conversationMutations";
 import Avatar from "@/app/components/Avatar";
 import LoadingModal from "@/app/components/LoadingModal";
+import useConversation from "@/app/hooks/useConversation";
 
 export default function UserBox({ data }) {
+  const { setConversations } = useConversation();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,12 +29,16 @@ export default function UserBox({ data }) {
     })
       .then((data) => {
         const {
-          data: {
-            addConversation: { id },
-          },
+          data: { addConversation: convo },
         } = data;
 
-        router.push(`/conversations/${id}`);
+        // added setState after removing /conversations Layout SSR props
+        setConversations((prevItems) => [
+          convo,
+          ...prevItems.filter((item) => item.id !== convo.id),
+        ]);
+
+        router.push(`/conversations/${convo.id}`);
       })
       .finally(() => setIsLoading(false));
   }, [data, router]);
