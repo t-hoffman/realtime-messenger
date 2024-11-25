@@ -1,15 +1,16 @@
 import clsx from "clsx";
 
-const AuthSocialButton = ({ icon: Icon, onClick, facebook = false }) => {
+const AuthSocialButton = ({ icon: Icon, onClick, name }) => {
   return (
     <button
       type="button"
       onClick={onClick}
       className={clsx(
         `
-        inline-flex 
+        flex 
         w-full 
-        justify-center 
+        justify-center
+        items-center
         rounded-md 
         bg-white 
         px-4 
@@ -22,10 +23,13 @@ const AuthSocialButton = ({ icon: Icon, onClick, facebook = false }) => {
         focus:outline-offset-0
         text-3xl
       `,
-        facebook && "text-[#2C64F6]"
+        name === "Facebook" && "text-[#2C64F6]"
       )}
     >
-      <Icon />
+      <div className="flex gap-2 items-center">
+        <Icon />
+        <div className="text-xs text-black">Sign in with {name}</div>
+      </div>
     </button>
   );
 };

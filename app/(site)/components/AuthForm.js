@@ -92,17 +92,18 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="mt-8 mx-7 sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="mt-8 mx-5 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow rounded-lg sm:px-10">
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <AuthSocialButton
-            icon={FaFacebook}
-            facebook={true}
-            onClick={() => socialAction("facebook")}
-          />
-          <AuthSocialButton
+            name="Google"
             icon={FcGoogle}
             onClick={() => socialAction("google")}
+          />
+          <AuthSocialButton
+            name="Facebook"
+            icon={FaFacebook}
+            onClick={() => socialAction("facebook")}
           />
         </div>
         <div className="mt-6 relative">
