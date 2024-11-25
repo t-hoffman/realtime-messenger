@@ -12,7 +12,12 @@ export default async function getGraphql({
 }: any) {
   let error, data;
   try {
-    const body = query.loc?.source.body || query;
+    const body =
+      query?.loc?.source?.body || (typeof query === "string" ? query : null);
+
+    if (!body) {
+      throw new Error(`Query body is invalid for queryName: ${queryName}`);
+    }
 
     const response = await axios.post(
       url,

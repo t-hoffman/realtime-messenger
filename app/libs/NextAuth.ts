@@ -67,11 +67,6 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
-  events: {
-    async createUser(message) {
-      console.log("createUser:", message);
-    },
-  },
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",

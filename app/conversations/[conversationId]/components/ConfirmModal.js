@@ -21,16 +21,14 @@ import { UPDATE_CONVERSATION_MUTATION } from "@/db/queries/conversationSubscript
 
 const publishDeletion = async (publish, users, conversationId) => {
   Promise.all(
-    users.map((user) => {
-      const vars = {
+    users.map((user) =>
+      publish({
         variables: {
           input: { id: conversationId, tag: "DELETION" },
           userId: user.id,
         },
-      };
-      console.log(vars);
-      return publish(vars);
-    })
+      })
+    )
   ).catch((err) => console.error(err));
 };
 

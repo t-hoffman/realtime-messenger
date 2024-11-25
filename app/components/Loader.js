@@ -1,8 +1,7 @@
 import "./styles/Loader.css";
 import clsx from "clsx";
 
-const Loader = ({ border, secondary, size = 5, fallback }) => {
-  if (fallback) console.log("<Loader/>");
+const Loader = ({ border, secondary, size = 5 }) => {
   return (
     <div className="w-full flex justify-center mt-6">
       <div

@@ -1,3 +1,5 @@
+"use server";
+
 import getCurrentUser from "./getCurrentUser";
 import getGraphql from "./getGraphql";
 import { CONVERSATIONS_BY_USER_QUERY } from "@/db/queries/conversationQueries";
@@ -13,9 +15,12 @@ const getConversations = async () => {
     variables: { userId: currentUser.id },
   });
 
-  if (error) return null;
+  if (error) {
+    console.error("Failed to fetch conversations:", error);
+    return [];
+  }
 
-  return data;
+  return data || [];
 };
 
 export default getConversations;
